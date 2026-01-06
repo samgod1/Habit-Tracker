@@ -1,0 +1,140 @@
+import { useState } from "react";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import axios from "axios";
+
+import "./Auth.css";
+import { useRef } from "react";
+
+const Auth = () => {
+	const [authState, setAuthState] = useState("default");
+
+	const signupFormRef = useRef(null);
+	const loginFormRef = useRef(null);
+
+	function handleClick(e) {
+		if (e.target.id == "login-button") {
+			if (authState == "login") {
+				return;
+			}
+			setAuthState("login");
+		} else {
+			if (authState == "signup") {
+				return;
+			}
+			setAuthState("signup");
+		}
+	}
+
+	async function signup(e) {
+		try {
+			e.preventDefault();
+			const formData = new FormData(signupFormRef.current);
+			const data = Object.fromEntries(formData.entries());
+			const response = await axios.post(
+				import.meta.env.VITE_BACKEND_URL + "/api/auth/signup",
+				data,
+				{
+					withCredentials: true,
+				}
+			);
+			console.log(response.data.message);
+		} catch (e) {
+			console.log(e);
+			console.log(e?.response?.data?.message);
+		}
+	}
+
+	async function login(e) {
+		try {
+			e.preventDefault();
+			const formData = new FormData(loginFormRef.current);
+			const data = Object.fromEntries(formData.entries());
+			console.log(data);
+			const response = await axios.post(
+				import.meta.env.VITE_BACKEND_URL + "/api/auth/login",
+				data,
+				{
+					withCredentials: true,
+				}
+			);
+			console.log(response.data.message);
+		} catch (e) {
+			console.log(e);
+			console.log(e?.response?.data?.message);
+		}
+	}
+
+	useGSAP(() => {
+		//When state is login animate
+		if (authState == "login") {
+			gsap.to("#login-form", {
+				xPercent: 0,
+			});
+			gsap.to("#signup-form", {
+				xPercent: 100,
+			});
+			gsap.to("#slider", {
+				xPercent: 0,
+			});
+		}
+
+		//When state is signup animate
+		if (authState == "signup") {
+			gsap.to("#login-form", {
+				xPercent: -100,
+			});
+			gsap.to("#signup-form", {
+				xPercent: -100,
+			});
+			gsap.to("#slider", {
+				xPercent: 100,
+			});
+		}
+	}, [authState]);
+
+	return (
+		<main className="auth-page">
+			<section className="left-side">
+				<div className="wrapper">
+					<div className="buttons-wrapper">
+						<button id="login-button" onClick={handleClick}>
+							Login
+						</button>
+						<button id="signup-button" onClick={handleClick}>
+							Signup
+						</button>
+						<div id="slider"></div>
+					</div>
+					<div className="form-wrapper">
+						<form id="signup-form" ref={signupFormRef}>
+							<h1>Welcome</h1>
+							<p>“Build the life you want, one habit at a time.”</p>
+							<input type="text" placeholder="Username" name="username" />
+							<input type="email" placeholder="Email" name="email" />
+							<input type="password" placeholder="Password" name="password" />
+							<input
+								type="password"
+								placeholder="Confirm Password"
+								name="confirmPassword"
+							/>
+							<button onClick={signup}>Signup</button>
+						</form>
+						<form id="login-form" ref={loginFormRef}>
+							<h1>Welcome back</h1>
+							<p>“Build the life you want, one habit at a time.”</p>
+							<input type="email" placeholder="Email" name="email" />
+							<input type="password" placeholder="Password" name="password" />
+							<button onClick={login}>Login</button>
+						</form>
+					</div>
+				</div>
+			</section>
+			<section className="right-side">
+				<img src="/images/girl-crossing-dates.png" alt="girl-crossing-dates" />
+			</section>
+		</main>
+	);
+};
+
+export default Auth;

@@ -1,0 +1,29 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+:root {
+	--c-purple: #aa00ff;
+	--c-dark-purple: #3d0066;
+	--c-white: #fafafa;
+	--c-black: #0f0f0f;
+
+	--color-primary: var(--c-purple);
+	--color-text: var(--c-black);
+	--color-btn-text: var(--c-white);
+	--color-slider: var(--c-dark-purple);
+}
+
+@font-face {
+	font-display: swap;
+	font-family: "Sour Gummy";
+	font-style: normal;
+	font-weight: 400;
+	src: url("/fonts/sour-gummy-v3-latin-regular.woff2") format("woff2");
+}
+
+* {
+	font-family: "Sour Gummy";
+}
