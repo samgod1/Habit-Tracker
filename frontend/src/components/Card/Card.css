@@ -1,0 +1,21 @@
+.card-container {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+
+	.habit-name {
+		color: var(--color-primary-text);
+		font-size: 1.25rem;
+		padding: 1rem 0rem;
+	}
+
+	.checkboxes-container {
+		display: flex;
+		gap: 1rem;
+		input {
+			width: 2rem;
+			height: 2rem;
+			cursor: pointer;
+		}
+	}
+}

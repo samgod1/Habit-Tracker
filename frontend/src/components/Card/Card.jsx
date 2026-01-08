@@ -1,16 +1,18 @@
 import React from "react";
 
+import "./Card.css";
+
 const habits = ["Read book"];
 
-const Card = ({ name, type, progress }) => {
+const Card = ({ name, progress }) => {
 	return (
-		<div>
-			<span>{name}</span>
-			{progress.map((bool) => (
-				<span>
+		<div className="card-container">
+			<div className="habit-name">{name}</div>
+			<div className="checkboxes-container">
+				{progress.map((bool) => (
 					<input type="checkbox" value={bool} />
-				</span>
-			))}
+				))}
+			</div>
 		</div>
 	);
 };

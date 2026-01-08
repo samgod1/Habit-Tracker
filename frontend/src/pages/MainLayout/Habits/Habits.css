@@ -1,4 +1,4 @@
-.habits {
+.habits-page {
 	width: 100%;
 	height: 100%;
 	background-color: var(--color-bg);
@@ -12,12 +12,47 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		height: 5rem;
+		height: 5.5rem;
 		width: 100%;
+		background-color: var(--color-navbar);
+
+		.create-habit {
+			background-color: var(--color-btn-create);
+			border: none;
+			color: var(--color-primary-text);
+			display: flex;
+			gap: 0.25rem;
+			padding: 0.5rem 0.75rem;
+			border-radius: 0.25rem;
+			font-size: 1rem;
+			cursor: pointer;
+		}
 	}
 
 	main {
 		flex-grow: 1;
-		padding: 0rem 1.5rem;
+		padding: 1.5rem;
+		display: grid;
+		grid-template-columns: 2fr 1fr;
+		grid-template-rows: 1fr 1fr;
+		grid-template-areas:
+			"habits top-priorities"
+			"habits mood-board";
+		gap: 1.5rem;
+
+		.type {
+			color: var(--color-primary-text);
+			font-size: 1.5rem;
+		}
+
+		.habits {
+			grid-area: habits;
+		}
+		.top-priorities {
+			grid-area: top-priorities;
+		}
+		.mood-board {
+			grid-area: mood-board;
+		}
 	}
 }

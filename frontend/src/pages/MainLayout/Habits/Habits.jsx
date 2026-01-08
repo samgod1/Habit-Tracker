@@ -10,30 +10,39 @@ const habits = [
 		type: "good",
 		progress: [false, false, false, false, false, false, false],
 	},
+	{
+		id: 2,
+		name: "Make bed",
+		type: "good",
+		progress: [false, false, false, false, false, false, false],
+	},
 ];
 
 const Habits = () => {
 	return (
-		<div className="habits">
+		<div className="habits-page">
 			<header>
 				<span>My habits</span>
-				<button>
+				<button className="create-habit">
 					<FaPlus />
-					Create
 				</button>
 			</header>
 			<main>
-				<div>Good Habits😇</div>
-				{habits.map(
-					(habit) =>
-						habit.type == "good" && (
-							<Card
-								key={habit.id}
-								name={habit.name}
-								progress={habit.progress}
-							/>
-						)
-				)}
+				<section className="habits">
+					<div className="type">Good Habits😇</div>
+					{habits.map(
+						(habit) =>
+							habit.type == "good" && (
+								<Card
+									key={habit.id}
+									name={habit.name}
+									progress={habit.progress}
+								/>
+							)
+					)}
+				</section>
+				<section className="top-priorities">Top Priorities</section>
+				<section className="mood-board">Mood board</section>
 			</main>
 		</div>
 	);

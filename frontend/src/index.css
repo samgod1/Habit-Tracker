@@ -10,11 +10,14 @@
 	--c-white: #fafafa;
 	--c-black: #0f0f0f;
 	--c-cyan: #131f24;
+	--c-dark-cyan: #0b1215;
 	--c-light-blue: #3f85a7;
 	--c-red: #b91c1c;
 	--c-gray: #37464f;
+	--c-green: #58cc02;
 
 	--color-bg: var(--c-cyan);
+	--color-navbar: var(--c-dark-cyan);
 	--color-primary-text: var(--c-white);
 	--color-link-border: var(--c-light-blue);
 	--color-sidebar-border: var(--c-gray);
@@ -24,6 +27,7 @@
 	--color-btn-text: var(--c-white);
 	--color-slider: var(--c-dark-purple);
 	--color-logout-hover: var(--c-red);
+	--color-btn-create: var(--c-green);
 }
 
 @font-face {
