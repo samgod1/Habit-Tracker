@@ -31,7 +31,7 @@ export const login = async (req, res) => {
 			httpOnly: true,
 		});
 
-		return res.status(200).json({ message: "Login successful" });
+		return res.status(200).json({ username: user.username, email: user.email });
 	} catch (e) {
 		console.log(e);
 		res.status(500).json({ message: "Oops! something went wrong" });
@@ -74,7 +74,21 @@ export const signup = async (req, res) => {
 			maxAge: 30 * 24 * 60 * 60 * 1000,
 			httpOnly: true,
 		});
-		return res.status(200).json({ message: "Signup successful" });
+		return res
+			.status(200)
+			.json({ username: newUser.username, email: newUser.email });
+	} catch (e) {
+		console.log(e);
+		res.status(500).json({ message: "Oops! something went wrong" });
+	}
+};
+
+export const logout = (req, res) => {
+	try {
+		res.clearCookie("token", {
+			httpOnly: true,
+		});
+		return res.status(200).json({ message: "Logout successful" });
 	} catch (e) {
 		console.log(e);
 		res.status(500).json({ message: "Oops! something went wrong" });

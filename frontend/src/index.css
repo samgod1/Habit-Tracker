@@ -9,11 +9,21 @@
 	--c-dark-purple: #3d0066;
 	--c-white: #fafafa;
 	--c-black: #0f0f0f;
+	--c-cyan: #131f24;
+	--c-light-blue: #3f85a7;
+	--c-red: #b91c1c;
+	--c-gray: #37464f;
 
+	--color-bg: var(--c-cyan);
+	--color-primary-text: var(--c-white);
+	--color-link-border: var(--c-light-blue);
+	--color-sidebar-border: var(--c-gray);
+	--color-logout-border: var(--c-white);
 	--color-primary: var(--c-purple);
 	--color-text: var(--c-black);
 	--color-btn-text: var(--c-white);
 	--color-slider: var(--c-dark-purple);
+	--color-logout-hover: var(--c-red);
 }
 
 @font-face {
@@ -22,8 +32,4 @@
 	font-style: normal;
 	font-weight: 400;
 	src: url("/fonts/sour-gummy-v3-latin-regular.woff2") format("woff2");
-}
-
-* {
-	font-family: "Sour Gummy";
 }

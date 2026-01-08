@@ -1,0 +1,8 @@
+.layout {
+	display: flex;
+	height: 100dvh;
+
+	.layout-content {
+		flex-grow: 1;
+	}
+}

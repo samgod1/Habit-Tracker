@@ -1,16 +1,22 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import axios from "axios";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import { useRef } from "react";
 
 import "./Auth.css";
-import { useRef } from "react";
+import { userContext } from "../../contexts/UserContext";
 
 const Auth = () => {
 	const [authState, setAuthState] = useState("default");
 
 	const signupFormRef = useRef(null);
 	const loginFormRef = useRef(null);
+
+	const { signup, login } = useContext(userContext);
+
+	const navigate = useNavigate();
 
 	function handleClick(e) {
 		if (e.target.id == "login-button") {
@@ -26,42 +32,27 @@ const Auth = () => {
 		}
 	}
 
-	async function signup(e) {
+	async function handleSignup(e) {
 		try {
 			e.preventDefault();
 			const formData = new FormData(signupFormRef.current);
 			const data = Object.fromEntries(formData.entries());
-			const response = await axios.post(
-				import.meta.env.VITE_BACKEND_URL + "/api/auth/signup",
-				data,
-				{
-					withCredentials: true,
-				}
-			);
-			console.log(response.data.message);
+			await signup(data);
 		} catch (e) {
 			console.log(e);
-			console.log(e?.response?.data?.message);
 		}
 	}
 
-	async function login(e) {
+	async function handleLogin(e) {
 		try {
 			e.preventDefault();
 			const formData = new FormData(loginFormRef.current);
 			const data = Object.fromEntries(formData.entries());
-			console.log(data);
-			const response = await axios.post(
-				import.meta.env.VITE_BACKEND_URL + "/api/auth/login",
-				data,
-				{
-					withCredentials: true,
-				}
-			);
-			console.log(response.data.message);
+			await login(data);
+			navigate("/habits");
+			toast.success("Login successful");
 		} catch (e) {
 			console.log(e);
-			console.log(e?.response?.data?.message);
 		}
 	}
 
@@ -118,14 +109,14 @@ const Auth = () => {
 								placeholder="Confirm Password"
 								name="confirmPassword"
 							/>
-							<button onClick={signup}>Signup</button>
+							<button onClick={handleSignup}>Signup</button>
 						</form>
 						<form id="login-form" ref={loginFormRef}>
 							<h1>Welcome back</h1>
 							<p>“Build the life you want, one habit at a time.”</p>
 							<input type="email" placeholder="Email" name="email" />
 							<input type="password" placeholder="Password" name="password" />
-							<button onClick={login}>Login</button>
+							<button onClick={handleLogin}>Login</button>
 						</form>
 					</div>
 				</div>
