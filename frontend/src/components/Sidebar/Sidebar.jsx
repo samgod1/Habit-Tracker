@@ -6,7 +6,6 @@ import { useGSAP } from "@gsap/react";
 
 import "./Sidebar.css";
 import { userContext } from "../../contexts/UserContext";
-import { all } from "axios";
 
 const Sidebar = () => {
 	const [selectedLink, setSelectedLink] = useState("home");
@@ -16,7 +15,7 @@ const Sidebar = () => {
 	const borderRef = useRef(null);
 	const containerRef = useRef(null);
 
-	const { logout } = useContext(userContext);
+	const { user, loading, logout } = useContext(userContext);
 
 	const navigate = useNavigate();
 
@@ -26,25 +25,29 @@ const Sidebar = () => {
 	}
 
 	useGSAP(() => {
-		//This is for setting the border accroding to the links height
-		const activeLink = containerRef.current.querySelector(
-			`[data-link = ${selectedLink}]`
-		);
-		gsap.set(".border", {
-			height: activeLink.offsetHeight,
-		});
-	}, []);
+		if (!loading) {
+			//This is for setting the border accroding to the links height
+			const activeLink = containerRef.current.querySelector(
+				`[data-link = ${selectedLink}]`
+			);
+			gsap.set(".border", {
+				height: activeLink.offsetHeight,
+			});
+		}
+	}, [loading]);
 
 	useGSAP(() => {
-		const activeLink = containerRef.current.querySelector(
-			`[data-link = ${selectedLink}]`
-		);
+		if (!loading) {
+			const activeLink = containerRef.current.querySelector(
+				`[data-link = ${selectedLink}]`
+			);
 
-		gsap.to(".border", {
-			y: activeLink.offsetTop,
-			height: activeLink.offsetHeight,
-			duration: 0.3,
-		});
+			gsap.to(".border", {
+				y: activeLink.offsetTop,
+				height: activeLink.offsetHeight,
+				duration: 0.3,
+			});
+		}
 	}, [selectedLink]);
 
 	useGSAP(() => {
@@ -53,6 +56,7 @@ const Sidebar = () => {
 				opacity: 1,
 				yPercent: -100,
 				pointerEvents: "all",
+				duration: 0.3,
 				onComplete: () => {
 					setCanClickLogout(true);
 				},
@@ -62,12 +66,17 @@ const Sidebar = () => {
 				opacity: 0,
 				yPercent: 0,
 				pointerEvents: "none",
+				duration: 0.3,
 				onComplete: () => {
 					setCanClickLogout(false);
 				},
 			});
 		}
 	}, [isOpen]);
+
+	if (loading) {
+		return <div className="loading">Loading</div>;
+	}
 
 	return (
 		<aside>
@@ -105,7 +114,7 @@ const Sidebar = () => {
 					setIsOpen((prev) => !prev);
 				}}
 			>
-				<span className="email">useremail@gmail.com</span>
+				<span className="email">{user?.email}</span>
 				<IoIosArrowUp />
 				<button
 					onClick={handleLogout}

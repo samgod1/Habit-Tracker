@@ -1,4 +1,4 @@
-import { useState, createContext } from "react";
+import { useState, createContext, useEffect } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 
@@ -39,6 +39,7 @@ export const UserProvider = ({ children }) => {
 			setLoading(false);
 			toast.success("Login Successful");
 		} catch (e) {
+			console.log(e);
 			toast.error(e?.response?.data?.message);
 			throw new Error(e);
 		}
@@ -60,6 +61,27 @@ export const UserProvider = ({ children }) => {
 			setUser(null);
 		}
 	}
+
+	async function fetchUserData() {
+		try {
+			const response = await axios.get(
+				import.meta.env.VITE_BACKEND_URL + "/api/user/",
+				{
+					withCredentials: true,
+				}
+			);
+			setUser(response.data);
+			setLoading(false);
+		} catch (e) {
+			console.log(e);
+			setUser(null);
+			setLoading(false);
+		}
+	}
+
+	useEffect(() => {
+		fetchUserData();
+	}, []);
 
 	return (
 		<userContext.Provider value={{ user, loading, signup, login, logout }}>
