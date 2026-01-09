@@ -16,6 +16,12 @@ const habits = [
 		type: "good",
 		progress: [false, false, false, false, false, false, false],
 	},
+	{
+		id: 3,
+		name: "Scrolling Reels",
+		type: "bad",
+		progress: [false, false, false, false, false, false, false],
+	},
 ];
 
 const Habits = () => {
@@ -25,21 +31,39 @@ const Habits = () => {
 				<span>My habits</span>
 				<button className="create-habit">
 					<FaPlus />
+					New
 				</button>
 			</header>
 			<main>
 				<section className="habits">
 					<div className="type">Good Habits😇</div>
-					{habits.map(
-						(habit) =>
-							habit.type == "good" && (
-								<Card
-									key={habit.id}
-									name={habit.name}
-									progress={habit.progress}
-								/>
-							)
-					)}
+					<div className="cards-container">
+						{habits.map(
+							(habit) =>
+								habit.type == "good" && (
+									<Card
+										key={habit.id}
+										name={habit.name}
+										type={habit.type}
+										progress={habit.progress}
+									/>
+								)
+						)}
+					</div>
+					<div className="type">Bad Habits😈</div>
+					<div className="cards-container">
+						{habits.map(
+							(habit) =>
+								habit.type == "bad" && (
+									<Card
+										key={habit.id}
+										name={habit.name}
+										type={habit.type}
+										progress={habit.progress}
+									/>
+								)
+						)}
+					</div>
 				</section>
 				<section className="top-priorities">Top Priorities</section>
 				<section className="mood-board">Mood board</section>

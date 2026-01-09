@@ -15,6 +15,7 @@
 	--c-red: #b91c1c;
 	--c-gray: #37464f;
 	--c-green: #58cc02;
+	--c-dark-green: #238636;
 
 	--color-bg: var(--c-cyan);
 	--color-navbar: var(--c-dark-cyan);
@@ -27,7 +28,9 @@
 	--color-btn-text: var(--c-white);
 	--color-slider: var(--c-dark-purple);
 	--color-logout-hover: var(--c-red);
-	--color-btn-create: var(--c-green);
+	--color-btn-create: var(--c-dark-green);
+	--color-checkbox-good: var(--c-green);
+	--color-checkbox-bad: var(--c-red);
 }
 
 @font-face {

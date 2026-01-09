@@ -43,10 +43,16 @@
 		.type {
 			color: var(--color-primary-text);
 			font-size: 1.5rem;
+			font-weight: bolder;
 		}
 
 		.habits {
 			grid-area: habits;
+
+			.cards-container {
+				margin-top: 0.25rem;
+				margin-bottom: 1rem;
+			}
 		}
 		.top-priorities {
 			grid-area: top-priorities;

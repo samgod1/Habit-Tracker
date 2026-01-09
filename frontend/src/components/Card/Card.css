@@ -1,4 +1,4 @@
-.card-container {
+.card {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -6,16 +6,25 @@
 	.habit-name {
 		color: var(--color-primary-text);
 		font-size: 1.25rem;
-		padding: 1rem 0rem;
+		padding: 0.5rem 0rem;
 	}
 
 	.checkboxes-container {
 		display: flex;
 		gap: 1rem;
+
 		input {
-			width: 2rem;
-			height: 2rem;
+			width: 1.5rem;
+			height: 1.5rem;
 			cursor: pointer;
+		}
+
+		.good {
+			accent-color: var(--color-checkbox-good);
+		}
+
+		.bad {
+			accent-color: var(--color-checkbox-bad);
 		}
 	}
 }
