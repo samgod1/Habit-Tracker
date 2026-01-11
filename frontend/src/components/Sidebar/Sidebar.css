@@ -1,6 +1,7 @@
 .loading {
 	width: 25vw;
 	max-width: 300px;
+	background-color: var(--color-bg);
 }
 
 aside {

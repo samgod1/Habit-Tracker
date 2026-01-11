@@ -15,10 +15,11 @@
 	--c-red: #b91c1c;
 	--c-gray: #37464f;
 	--c-green: #58cc02;
+	--c-lighter-green: #29903b;
 	--c-dark-green: #238636;
 
 	--color-bg: var(--c-cyan);
-	--color-navbar: var(--c-dark-cyan);
+	--color-header: var(--c-dark-cyan);
 	--color-primary-text: var(--c-white);
 	--color-link-border: var(--c-light-blue);
 	--color-sidebar-border: var(--c-gray);
@@ -29,6 +30,7 @@
 	--color-slider: var(--c-dark-purple);
 	--color-logout-hover: var(--c-red);
 	--color-btn-create: var(--c-dark-green);
+	--color-btn-create-hover: var(--c-lighter-green);
 	--color-checkbox-good: var(--c-green);
 	--color-checkbox-bad: var(--c-red);
 }

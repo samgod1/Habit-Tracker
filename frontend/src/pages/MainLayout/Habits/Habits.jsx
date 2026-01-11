@@ -1,6 +1,7 @@
+import { useState } from "react";
 import { FaPlus } from "react-icons/fa";
 
-import { Card } from "../../../components/index.js";
+import { Card, Dialog } from "../../../components/index.js";
 import "./Habits.css";
 
 const habits = [
@@ -25,11 +26,18 @@ const habits = [
 ];
 
 const Habits = () => {
+	const [isDialogOpen, setIsDialogOpen] = useState(false);
+
 	return (
 		<div className="habits-page">
 			<header>
 				<span>My habits</span>
-				<button className="create-habit">
+				<button
+					className="create-habit"
+					onClick={() => {
+						setIsDialogOpen(!isDialogOpen);
+					}}
+				>
 					<FaPlus />
 					New
 				</button>
@@ -68,6 +76,7 @@ const Habits = () => {
 				<section className="top-priorities">Top Priorities</section>
 				<section className="mood-board">Mood board</section>
 			</main>
+			{isDialogOpen && <Dialog setIsDialogOpen={setIsDialogOpen} />}
 		</div>
 	);
 };
