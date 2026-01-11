@@ -73,8 +73,23 @@ const Habits = () => {
 						)}
 					</div>
 				</section>
-				<section className="top-priorities">Top Priorities</section>
-				<section className="mood-board">Mood board</section>
+				<section className="top-priorities">
+					<div className="wrapper">
+						<div className="title"> Top 3 Priorites</div>
+						<div className="input-group">
+							<input type="checkbox" />
+							<input type="text" />
+						</div>
+						<div className="input-group">
+							<input type="checkbox" />
+							<input type="text" />
+						</div>
+						<div className="input-group">
+							<input type="checkbox" />
+							<input type="text" />
+						</div>
+					</div>
+				</section>
 			</main>
 			{isDialogOpen && <Dialog setIsDialogOpen={setIsDialogOpen} />}
 		</div>
