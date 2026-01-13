@@ -1,32 +1,54 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaPlus } from "react-icons/fa";
+import toast from "react-hot-toast";
+import axios from "axios";
+import { v4 as uuidv4 } from "uuid";
 
 import { Card, Dialog } from "../../../components/index.js";
 import "./Habits.css";
 
-const habits = [
-	{
-		id: 1,
-		name: "Read Book",
-		type: "good",
-		progress: [false, false, false, false, false, false, false],
-	},
-	{
-		id: 2,
-		name: "Make bed",
-		type: "good",
-		progress: [false, false, false, false, false, false, false],
-	},
-	{
-		id: 3,
-		name: "Scrolling Reels",
-		type: "bad",
-		progress: [false, false, false, false, false, false, false],
-	},
-];
+// const habits = [
+// 	{
+// 		id: 1,
+// 		name: "Read Book",
+// 		type: "good",
+// 		icon: "📕",
+// 	},
+// 	{
+// 		id: 2,
+// 		name: "Make bed",
+// 		type: "good",
+// 		icon: "🛌",
+// 	},
+// 	{
+// 		id: 3,
+// 		name: "Scrolling Reels",
+// 		type: "bad",
+// 		icon: "📱",
+// 	},
+// ];
 
 const Habits = () => {
 	const [isDialogOpen, setIsDialogOpen] = useState(false);
+	const [habits, setHabits] = useState([]);
+
+	async function getAllHabits() {
+		try {
+			const response = await axios.get(
+				import.meta.env.VITE_BACKEND_URL + "/api/habit/",
+				{
+					withCredentials: true,
+				}
+			);
+			setHabits(response.data);
+		} catch (e) {
+			toast.error(e?.response?.data?.message || e.message);
+		}
+	}
+
+	useEffect(() => {
+		getAllHabits();
+	}, []);
 
 	return (
 		<div className="habits-page">
@@ -50,10 +72,11 @@ const Habits = () => {
 							(habit) =>
 								habit.type == "good" && (
 									<Card
-										key={habit.id}
+										id={habit._id}
+										key={habit._id}
 										name={habit.name}
 										type={habit.type}
-										progress={habit.progress}
+										icon={habit.icon}
 									/>
 								)
 						)}
@@ -64,10 +87,11 @@ const Habits = () => {
 							(habit) =>
 								habit.type == "bad" && (
 									<Card
-										key={habit.id}
+										id={habit._id}
+										key={uuidv4()}
 										name={habit.name}
 										type={habit.type}
-										progress={habit.progress}
+										icon={habit.icon}
 									/>
 								)
 						)}
@@ -91,7 +115,9 @@ const Habits = () => {
 					</div>
 				</section>
 			</main>
-			{isDialogOpen && <Dialog setIsDialogOpen={setIsDialogOpen} />}
+			{isDialogOpen && (
+				<Dialog setIsDialogOpen={setIsDialogOpen} setHabits={setHabits} />
+			)}
 		</div>
 	);
 };

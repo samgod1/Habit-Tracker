@@ -1,21 +1,46 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FaPen } from "react-icons/fa";
 import EmojiPicker from "emoji-picker-react";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 import "./Dialog.css";
 
-const Dialog = ({ setIsDialogOpen }) => {
+const Dialog = ({ setIsDialogOpen, setHabits }) => {
 	const [isOpen, setIsOpen] = useState(false);
 
 	const emojiDisplay = useRef(null);
+	const nameRef = useRef(null);
+	const typeRef = useRef(null);
 
 	function handleEmojiClick(emojiData) {
 		emojiDisplay.current.innerText = emojiData.emoji;
 	}
 
-	function handleCreate() {
-		setIsDialogOpen(false);
+	async function createHabit() {
+		const icon = emojiDisplay.current.innerText;
+		const name = nameRef.current.value;
+		const type = typeRef.current.value;
+		console.log(icon, name, type);
+		try {
+			const response = await axios.post(
+				import.meta.env.VITE_BACKEND_URL + "/api/habit/create",
+				{
+					icon: icon,
+					name: name,
+					type: type,
+				},
+				{
+					withCredentials: true,
+				}
+			);
+			setHabits((prev) => [...prev, response.data]);
+			setIsDialogOpen(false);
+		} catch (e) {
+			toast.error(e?.response?.data?.message || e);
+		}
 	}
+
 	return (
 		<>
 			<div
@@ -49,11 +74,16 @@ const Dialog = ({ setIsDialogOpen }) => {
 				</div>
 				<div className="input-group">
 					<label htmlFor="habit-name">Habit name:</label>
-					<input type="text" id="habit-name" placeholder="e.g. Read book" />
+					<input
+						type="text"
+						id="habit-name"
+						placeholder="e.g. Read book"
+						ref={nameRef}
+					/>
 				</div>
 				<div className="input-group">
 					<label htmlFor="type">Type:</label>
-					<select>
+					<select ref={typeRef}>
 						<option value="good">Good</option>
 						<option value="bad">Bad</option>
 					</select>
@@ -66,7 +96,7 @@ const Dialog = ({ setIsDialogOpen }) => {
 						<option value="pm">Pm</option>
 					</select>
 				</div>
-				<button className="create-button" onClick={handleCreate}>
+				<button className="create-button" onClick={createHabit}>
 					Create
 				</button>
 			</div>
