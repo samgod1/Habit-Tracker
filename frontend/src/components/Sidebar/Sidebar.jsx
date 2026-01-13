@@ -1,5 +1,5 @@
 import { useState, useRef, useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { IoIosHome, IoMdTrendingUp, IoIosArrowUp } from "react-icons/io";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -7,8 +7,14 @@ import { useGSAP } from "@gsap/react";
 import "./Sidebar.css";
 import { userContext } from "../../contexts/UserContext";
 
+const pathMap = {
+	"/habits": "home",
+	"/progress": "progress",
+};
+
 const Sidebar = () => {
-	const [selectedLink, setSelectedLink] = useState("home");
+	const location = useLocation();
+
 	const [isOpen, setIsOpen] = useState(false);
 	const [canClickLogout, setCanClickLogout] = useState(false);
 
@@ -26,11 +32,14 @@ const Sidebar = () => {
 
 	useGSAP(() => {
 		if (!loading) {
-			//This is for setting the border accroding to the links height
+			const selectedLink = pathMap[location.pathname];
+
+			//This is for setting the border according to the links height
 			const activeLink = containerRef.current.querySelector(
 				`[data-link = ${selectedLink}]`
 			);
 			gsap.set(".border", {
+				y: activeLink.offsetTop,
 				height: activeLink.offsetHeight,
 			});
 		}
@@ -38,6 +47,8 @@ const Sidebar = () => {
 
 	useGSAP(() => {
 		if (!loading) {
+			const selectedLink = pathMap[location.pathname];
+
 			const activeLink = containerRef.current.querySelector(
 				`[data-link = ${selectedLink}]`
 			);
@@ -48,7 +59,7 @@ const Sidebar = () => {
 				duration: 0.3,
 			});
 		}
-	}, [selectedLink]);
+	}, [location.pathname]);
 
 	useGSAP(() => {
 		if (isOpen) {
@@ -85,25 +96,11 @@ const Sidebar = () => {
 				{/* Div that will move up and down according to the selected link */}
 				<div className="border" ref={borderRef}></div>
 
-				<Link
-					to="/habits"
-					className="link"
-					data-link="home"
-					onClick={() => {
-						setSelectedLink("home");
-					}}
-				>
+				<Link to="/habits" className="link" data-link="home">
 					<IoIosHome size={25} />
 					<span>Home</span>
 				</Link>
-				<Link
-					to="/progress"
-					className="link"
-					data-link="progress"
-					onClick={() => {
-						setSelectedLink("progress");
-					}}
-				>
+				<Link to="/progress" className="link" data-link="progress">
 					<IoMdTrendingUp size={25} />
 					Progress
 				</Link>
