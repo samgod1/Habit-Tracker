@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { FaPlus } from "react-icons/fa";
 import toast from "react-hot-toast";
 import axios from "axios";
@@ -6,31 +6,12 @@ import { v4 as uuidv4 } from "uuid";
 
 import { Card, Dialog } from "../../../components/index.js";
 import "./Habits.css";
-
-// const habits = [
-// 	{
-// 		id: 1,
-// 		name: "Read Book",
-// 		type: "good",
-// 		icon: "📕",
-// 	},
-// 	{
-// 		id: 2,
-// 		name: "Make bed",
-// 		type: "good",
-// 		icon: "🛌",
-// 	},
-// 	{
-// 		id: 3,
-// 		name: "Scrolling Reels",
-// 		type: "bad",
-// 		icon: "📱",
-// 	},
-// ];
+import { HabitContext } from "../../../contexts/HabitContext.jsx";
 
 const Habits = () => {
 	const [isDialogOpen, setIsDialogOpen] = useState(false);
-	const [habits, setHabits] = useState([]);
+
+	const { habits, setHabits, loading } = useContext(HabitContext);
 
 	async function getAllHabits() {
 		try {
@@ -49,6 +30,10 @@ const Habits = () => {
 	useEffect(() => {
 		getAllHabits();
 	}, []);
+
+	if (loading) {
+		return <div>Loading</div>;
+	}
 
 	return (
 		<div className="habits-page">
