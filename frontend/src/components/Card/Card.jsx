@@ -23,7 +23,6 @@ const Card = ({ id, name, type, icon }) => {
 				}
 			);
 
-			console.log(response.data.completedDates);
 			setCompletedDates(response.data.completedDates);
 		} catch (e) {
 			console.log(e);

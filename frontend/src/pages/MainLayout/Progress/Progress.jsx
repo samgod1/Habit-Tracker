@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
 	Line,
 	LineChart,
@@ -7,48 +7,51 @@ import {
 	CartesianGrid,
 	ResponsiveContainer,
 } from "recharts";
+import { HabitContext } from "../../../contexts/HabitContext";
 
 import "./Progress.css";
-
-const progress = [
-	{
-		day: "Mon",
-		date: "2026-01-03",
-		count: 2,
-	},
-	{
-		day: "Tue",
-		date: "2026-01-04",
-		count: 0,
-	},
-	{
-		day: "Wed",
-		date: "2026-01-05",
-		count: 2,
-	},
-	{
-		day: "Thu",
-		date: "2026-01-06",
-		count: 5,
-	},
-	{
-		day: "Fri",
-		date: "2026-01-07",
-		count: 4,
-	},
-	{
-		day: "Sat",
-		date: "2026-01-08",
-		count: 5,
-	},
-	{
-		day: "Sun",
-		date: "2026-01-09",
-		count: 2,
-	},
-];
+import getDayFromDate from "../../../utils/getDayFromDate";
+import getWeekDays from "../../../utils/dateUtils";
 
 const Progress = () => {
+	const [weeklyData, setWeeklyData] = useState([]);
+
+	const { habits } = useContext(HabitContext);
+
+	const weekDays = getWeekDays();
+
+	function convertDataforChart() {
+		const allHabitsCompletedDates = habits.flatMap(
+			(habit) => habit.completedDates
+		);
+
+		const counts = {};
+
+		for (const date of allHabitsCompletedDates) {
+			if (counts[date]) {
+				counts[date] += 1;
+			} else {
+				counts[date] = 1;
+			}
+		}
+
+		const weeklyData = weekDays.map((date) => {
+			return {
+				day: getDayFromDate(date),
+				date,
+				count: counts[date] || 0,
+			};
+		});
+
+		setWeeklyData(weeklyData);
+	}
+
+	useEffect(() => {
+		if (habits.length != 0) {
+			convertDataforChart();
+		}
+	}, [habits]);
+
 	return (
 		<div className="progress-page">
 			<header>
@@ -57,10 +60,13 @@ const Progress = () => {
 			<main>
 				<div className="chart-wrapper">
 					<ResponsiveContainer>
-						<LineChart data={progress} width={100} height={200}>
+						<LineChart data={weeklyData} width={100} height={200}>
 							<Line dataKey={"count"} />
 							<XAxis dataKey={"day"} />
-							<YAxis />
+							<YAxis
+								domain={[0, habits.length]}
+								ticks={Array.from({ length: habits.length + 1 }, (_, i) => i)}
+							/>
 							<CartesianGrid stroke="#ccc" />
 						</LineChart>
 					</ResponsiveContainer>
