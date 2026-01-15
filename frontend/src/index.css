@@ -8,6 +8,7 @@
 	--c-purple: #aa00ff;
 	--c-dark-purple: #3d0066;
 	--c-white: #fafafa;
+	--c-lighter-gray: #fff9;
 	--c-black: #0f0f0f;
 	--c-cyan: #131f24;
 	--c-dark-cyan: #0b1215;
@@ -21,6 +22,7 @@
 	--color-bg: var(--c-cyan);
 	--color-header: var(--c-dark-cyan);
 	--color-primary-text: var(--c-white);
+	--color-secondary-text: var(--c-lighter-gray);
 	--color-link-border: var(--c-light-blue);
 	--color-sidebar-border: var(--c-gray);
 	--color-logout-border: var(--c-white);
@@ -41,4 +43,16 @@
 	font-style: normal;
 	font-weight: 400;
 	src: url("/fonts/sour-gummy-v3-latin-regular.woff2") format("woff2");
+}
+
+@font-face {
+	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+	font-family: "Roboto";
+	font-style: normal;
+	font-weight: 400;
+	src: url("/fonts/roboto-v50-latin-regular.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+* {
+	font-family: "Roboto", "sans-serif";
 }

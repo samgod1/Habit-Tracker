@@ -22,14 +22,14 @@ export const createHabit = async (req, res) => {
 			return res.status(400).json({ message: "All fields are required" });
 		}
 
-		const newHabit = Habit.create({
+		const newHabit = await Habit.create({
 			userId: _id,
 			name: name,
 			type: type,
 			icon: icon,
 		});
 
-		res.status(200).json({ newHabit });
+		res.status(200).json(newHabit);
 	} catch (e) {
 		console.log(e);
 		res.status(500).json({ message: "Oops! something went wrong" });

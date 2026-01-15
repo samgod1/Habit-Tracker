@@ -41,14 +41,32 @@
 		grid-template-areas: "habits top-priorities";
 		gap: 1.5rem;
 
-		.type {
-			color: var(--color-primary-text);
-			font-size: 1.5rem;
-			font-weight: bolder;
-		}
-
 		.habits {
 			grid-area: habits;
+
+			.habits-section-header {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+			}
+
+			.type {
+				color: var(--color-primary-text);
+				font-size: 1.5rem;
+				font-weight: bolder;
+			}
+
+			.days-container {
+				display: flex;
+				gap: 1rem;
+
+				span {
+					width: 24px;
+					font-size: 0.75rem;
+					text-align: center;
+					color: var(--color-secondary-text);
+				}
+			}
 
 			.cards-container {
 				margin-top: 0.25rem;

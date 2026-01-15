@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 
-import { Card, Dialog } from "../../../components/index.js";
+import { Card, Dialog, NoHabit } from "../../../components/index.js";
 import "./Habits.css";
 import { HabitContext } from "../../../contexts/HabitContext.jsx";
 
@@ -12,24 +12,6 @@ const Habits = () => {
 	const [isDialogOpen, setIsDialogOpen] = useState(false);
 
 	const { habits, setHabits, loading } = useContext(HabitContext);
-
-	async function getAllHabits() {
-		try {
-			const response = await axios.get(
-				import.meta.env.VITE_BACKEND_URL + "/api/habit/",
-				{
-					withCredentials: true,
-				}
-			);
-			setHabits(response.data);
-		} catch (e) {
-			toast.error(e?.response?.data?.message || e.message);
-		}
-	}
-
-	useEffect(() => {
-		getAllHabits();
-	}, []);
 
 	if (loading) {
 		return <div>Loading</div>;
@@ -51,36 +33,68 @@ const Habits = () => {
 			</header>
 			<main>
 				<section className="habits">
-					<div className="type">Good Habits😇</div>
-					<div className="cards-container">
-						{habits.map(
-							(habit) =>
-								habit.type == "good" && (
-									<Card
-										id={habit._id}
-										key={habit._id}
-										name={habit.name}
-										type={habit.type}
-										icon={habit.icon}
-									/>
-								)
-						)}
-					</div>
-					<div className="type">Bad Habits😈</div>
-					<div className="cards-container">
-						{habits.map(
-							(habit) =>
-								habit.type == "bad" && (
-									<Card
-										id={habit._id}
-										key={uuidv4()}
-										name={habit.name}
-										type={habit.type}
-										icon={habit.icon}
-									/>
-								)
-						)}
-					</div>
+					{habits.length == 0 ? (
+						<NoHabit />
+					) : (
+						<>
+							{habits.some((habit) => habit.type == "good") && (
+								<>
+									<div className="habits-section-header">
+										<div className="type">Good Habits😇</div>
+										<div className="days-container">
+											{["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map(
+												(day) => (
+													<span>{day}</span>
+												)
+											)}
+										</div>
+									</div>
+									<div className="cards-container">
+										{habits.map(
+											(habit) =>
+												habit.type == "good" && (
+													<Card
+														id={habit._id}
+														key={habit._id}
+														name={habit.name}
+														type={habit.type}
+														icon={habit.icon}
+													/>
+												)
+										)}
+									</div>
+								</>
+							)}
+							{habits.some((habit) => habit.type == "bad") && (
+								<>
+									<div className="habits-section-header">
+										<div className="type">Bad Habits😈</div>
+										<div className="days-container">
+											{["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map(
+												(day) => (
+													<span>{day}</span>
+												)
+											)}
+										</div>
+									</div>
+									<div className="cards-container">
+										{habits.map(
+											(habit) =>
+												habit.type == "bad" && (
+													<Card
+														id={habit._id}
+														key={uuidv4()}
+														name={habit.name}
+														type={habit.type}
+														icon={habit.icon}
+													/>
+												)
+										)}
+									</div>
+								</>
+							)}
+						</>
+					)}
 				</section>
 				<section className="top-priorities">
 					<div className="wrapper">
