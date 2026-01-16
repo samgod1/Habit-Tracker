@@ -32,5 +32,10 @@
 		.bad {
 			accent-color: var(--color-checkbox-bad);
 		}
+
+		.radial-chart-container {
+			width: 24px;
+			height: 24px;
+		}
 	}
 }

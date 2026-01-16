@@ -9,6 +9,9 @@ import "./Dialog.css";
 const Dialog = ({ setIsDialogOpen, setHabits }) => {
 	const [isOpen, setIsOpen] = useState(false);
 
+	const emojiPicker = useRef(null);
+	const buttonRef = useRef(null);
+
 	const emojiDisplay = useRef(null);
 	const nameRef = useRef(null);
 	const typeRef = useRef(null);
@@ -21,7 +24,7 @@ const Dialog = ({ setIsDialogOpen, setHabits }) => {
 		const icon = emojiDisplay.current.innerText;
 		const name = nameRef.current.value;
 		const type = typeRef.current.value;
-		console.log(icon, name, type);
+
 		try {
 			const response = await axios.post(
 				import.meta.env.VITE_BACKEND_URL + "/api/habit/create",
@@ -41,6 +44,28 @@ const Dialog = ({ setIsDialogOpen, setHabits }) => {
 		}
 	}
 
+	useEffect(() => {
+		function handleMouseDown(e) {
+			console.log(!emojiPicker.current.contains(e.target));
+			if (
+				emojiPicker.current &&
+				!emojiPicker.current.contains(e.target) &&
+				buttonRef.current &&
+				!buttonRef.current.contains(e.target)
+			) {
+				setIsOpen(false);
+			}
+		}
+
+		if (isOpen) {
+			document.addEventListener("mousedown", handleMouseDown);
+		}
+
+		return () => {
+			document.removeEventListener("mousedown", handleMouseDown);
+		};
+	}, [isOpen]);
+
 	return (
 		<>
 			<div
@@ -57,19 +82,22 @@ const Dialog = ({ setIsDialogOpen, setHabits }) => {
 						</span>
 						<button
 							className="edit-button"
+							ref={buttonRef}
 							onClick={() => {
 								setIsOpen(!isOpen);
 							}}
 						>
 							<FaPen />
 						</button>
-						<EmojiPicker
-							className="emoji-picker"
-							theme="dark"
-							open={isOpen}
-							skinTonesDisabled={true}
-							onEmojiClick={handleEmojiClick}
-						/>
+						<div ref={emojiPicker}>
+							<EmojiPicker
+								className="emoji-picker"
+								theme="dark"
+								open={isOpen}
+								skinTonesDisabled={true}
+								onEmojiClick={handleEmojiClick}
+							/>
+						</div>
 					</span>
 				</div>
 				<div className="input-group">

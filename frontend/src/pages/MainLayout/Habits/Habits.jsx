@@ -42,24 +42,40 @@ const Habits = () => {
 									<div className="habits-section-header">
 										<div className="type">Good Habits😇</div>
 										<div className="days-container">
-											{["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map(
-												(day) => (
-													<span>{day}</span>
-												)
-											)}
+											{[
+												"Mon",
+												"Tue",
+												"Wed",
+												"Thu",
+												"Fri",
+												"Sat",
+												"Sun",
+												"",
+											].map((day) => (
+												<span>{day}</span>
+											))}
 										</div>
 									</div>
 									<div className="cards-container">
 										{habits.map(
 											(habit) =>
 												habit.type == "good" && (
-													<Card
-														id={habit._id}
-														key={habit._id}
-														name={habit.name}
-														type={habit.type}
-														icon={habit.icon}
-													/>
+													<>
+														<Card
+															id={habit._id}
+															key={habit._id}
+															name={habit.name}
+															type={habit.type}
+															icon={habit.icon}
+														/>
+														<hr
+															style={{
+																border: "none",
+																height: "2px",
+																backgroundColor: "var(--color-sidebar-border)",
+															}}
+														/>
+													</>
 												)
 										)}
 									</div>
@@ -70,24 +86,40 @@ const Habits = () => {
 									<div className="habits-section-header">
 										<div className="type">Bad Habits😈</div>
 										<div className="days-container">
-											{["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map(
-												(day) => (
-													<span>{day}</span>
-												)
-											)}
+											{[
+												"Mon",
+												"Tue",
+												"Wed",
+												"Thu",
+												"Fri",
+												"Sat",
+												"Sun",
+												"",
+											].map((day) => (
+												<span>{day}</span>
+											))}
 										</div>
 									</div>
 									<div className="cards-container">
 										{habits.map(
 											(habit) =>
 												habit.type == "bad" && (
-													<Card
-														id={habit._id}
-														key={uuidv4()}
-														name={habit.name}
-														type={habit.type}
-														icon={habit.icon}
-													/>
+													<>
+														<Card
+															id={habit._id}
+															key={habit._id}
+															name={habit.name}
+															type={habit.type}
+															icon={habit.icon}
+														/>
+														<hr
+															style={{
+																border: "none",
+																height: "2px",
+																backgroundColor: "var(--color-sidebar-border)",
+															}}
+														/>
+													</>
 												)
 										)}
 									</div>

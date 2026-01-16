@@ -1,7 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 import toast from "react-hot-toast";
+import {
+	RadialBarChart,
+	RadialBar,
+	PolarAngleAxis,
+	ResponsiveContainer,
+} from "recharts";
 
 import getWeekDays from "../../utils/dateUtils";
 import "./Card.css";
@@ -9,6 +15,8 @@ import "./Card.css";
 const Card = ({ id, name, type, icon }) => {
 	const [days, setDays] = useState(null);
 	const [completedDates, setCompletedDates] = useState(null);
+
+	const isFirstRender = useRef(true);
 
 	//Getting the completed date for this habit
 	async function getCompletedDates() {
@@ -42,6 +50,9 @@ const Card = ({ id, name, type, icon }) => {
 		}
 
 		setCompletedDates(newCompletedDates);
+	}
+
+	async function updateCompletedDates() {
 		try {
 			const response = await axios.post(
 				import.meta.env.VITE_BACKEND_URL +
@@ -49,15 +60,13 @@ const Card = ({ id, name, type, icon }) => {
 					id +
 					"/updateCompletedDates",
 				{
-					completedDates: newCompletedDates,
+					completedDates: completedDates,
 					habitId: id,
 				},
 				{
 					withCredentials: true,
 				}
 			);
-
-			console.log(response.data.message);
 		} catch (e) {
 			toast.error(e?.response?.data?.message || e.message);
 		}
@@ -67,6 +76,32 @@ const Card = ({ id, name, type, icon }) => {
 		setDays(getWeekDays());
 		getCompletedDates();
 	}, []);
+
+	useEffect(() => {
+		if (isFirstRender.current) {
+			isFirstRender.current = false;
+			return;
+		}
+
+		const delayDebounceFn = setTimeout(() => {
+			updateCompletedDates();
+		}, 1000);
+
+		return () => {
+			clearTimeout(delayDebounceFn);
+		};
+	}, [completedDates]);
+
+	const currentWeekCount = completedDates
+		? completedDates.filter((date) => days?.includes(date)).length
+		: 0;
+
+	const data = [
+		{
+			value: currentWeekCount,
+		},
+	];
+
 	return (
 		<div className="card">
 			<div className="wrapper">
@@ -85,6 +120,23 @@ const Card = ({ id, name, type, icon }) => {
 							day={day}
 						/>
 					))}
+					<RadialBarChart
+						width={24}
+						height={24}
+						data={data}
+						innerRadius="40%"
+						outerRadius="100%"
+						startAngle={90}
+						endAngle={-270}
+						margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
+					>
+						<PolarAngleAxis type="number" domain={[0, 7]} tick={false} />
+						<RadialBar
+							dataKey={"value"}
+							background={{ fill: "#e5e7eb" }}
+							fill={type == "good" ? "#238636" : "#b91c1c"}
+						/>
+					</RadialBarChart>
 				</div>
 			)}
 		</div>
