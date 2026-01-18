@@ -1,8 +1,7 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
 import { FaPlus } from "react-icons/fa";
 import toast from "react-hot-toast";
 import axios from "axios";
-import { v4 as uuidv4 } from "uuid";
 
 import { Card, Dialog, NoHabit } from "../../../components/index.js";
 import "./Habits.css";
@@ -10,8 +9,72 @@ import { HabitContext } from "../../../contexts/HabitContext.jsx";
 
 const Habits = () => {
 	const [isDialogOpen, setIsDialogOpen] = useState(false);
+	const [priorities, setPriorities] = useState({
+		1: { text: "", checked: false },
+		2: { text: "", checked: false },
+		3: { text: "", checked: false },
+	});
+	const debounceRef = useRef(null);
 
 	const { habits, setHabits, loading } = useContext(HabitContext);
+
+	function handlePriorityChange(e) {
+		const value = e.target.value;
+		const id = e.target.id;
+
+		const updated = { ...priorities, [id]: { ...priorities[id], text: value } };
+
+		setPriorities(updated);
+
+		clearTimeout(debounceRef.current);
+
+		debounceRef.current = setTimeout(() => {
+			updatePriorities(updated);
+		}, 800);
+	}
+
+	function handleCheckboxChange(e) {
+		const checked = e.target.checked;
+		const id = e.target.id;
+
+		const updated = { ...priorities, [id]: { ...priorities[id], checked } };
+		setPriorities(updated);
+
+		clearTimeout(debounceRef.current);
+
+		debounceRef.current = setTimeout(() => {
+			updatePriorities(updated);
+		});
+	}
+
+	async function getPriorities() {
+		try {
+			const response = await axios.get(
+				import.meta.env.VITE_BACKEND_URL + "/api/priorities/",
+				{ withCredentials: true },
+			);
+
+			setPriorities(response.data.priorities);
+		} catch (e) {
+			toast.error(e?.response?.data?.message || e.message);
+		}
+	}
+
+	async function updatePriorities(updated) {
+		try {
+			await axios.post(
+				import.meta.env.VITE_BACKEND_URL + "/api/priorities/update",
+				{ priorities: updated },
+				{ withCredentials: true },
+			);
+		} catch (e) {
+			toast.error(e?.response?.data?.message || e.message);
+		}
+	}
+
+	useEffect(() => {
+		getPriorities();
+	}, []);
 
 	if (loading) {
 		return <div>Loading</div>;
@@ -76,7 +139,7 @@ const Habits = () => {
 															}}
 														/>
 													</>
-												)
+												),
 										)}
 									</div>
 								</>
@@ -120,7 +183,7 @@ const Habits = () => {
 															}}
 														/>
 													</>
-												)
+												),
 										)}
 									</div>
 								</>
@@ -131,18 +194,22 @@ const Habits = () => {
 				<section className="top-priorities">
 					<div className="wrapper">
 						<div className="title"> Top 3 Priorites</div>
-						<div className="input-group">
-							<input type="checkbox" />
-							<input type="text" />
-						</div>
-						<div className="input-group">
-							<input type="checkbox" />
-							<input type="text" />
-						</div>
-						<div className="input-group">
-							<input type="checkbox" />
-							<input type="text" />
-						</div>
+						{[1, 2, 3].map((num) => (
+							<div className="input-group">
+								<input
+									type="checkbox"
+									onChange={handleCheckboxChange}
+									id={num}
+									checked={priorities[num].checked}
+								/>
+								<input
+									type="text"
+									id={num}
+									value={priorities[num].text}
+									onChange={handlePriorityChange}
+								/>
+							</div>
+						))}
 					</div>
 				</section>
 			</main>

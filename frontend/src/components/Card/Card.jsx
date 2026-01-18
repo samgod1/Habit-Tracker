@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 import toast from "react-hot-toast";
 import {
@@ -16,7 +15,7 @@ const Card = ({ id, name, type, icon }) => {
 	const [days, setDays] = useState(null);
 	const [completedDates, setCompletedDates] = useState(null);
 
-	const isFirstRender = useRef(true);
+	const debounceRef = useRef(null);
 
 	//Getting the completed date for this habit
 	async function getCompletedDates() {
@@ -28,7 +27,7 @@ const Card = ({ id, name, type, icon }) => {
 					"/completedDates",
 				{
 					withCredentials: true,
-				}
+				},
 			);
 
 			setCompletedDates(response.data.completedDates);
@@ -48,8 +47,13 @@ const Card = ({ id, name, type, icon }) => {
 		} else {
 			newCompletedDates = completedDates.filter((d) => d !== day);
 		}
-
 		setCompletedDates(newCompletedDates);
+
+		clearTimeout(debounceRef.current);
+
+		debounceRef.current = setTimeout(() => {
+			updateCompletedDates();
+		}, 800);
 	}
 
 	async function updateCompletedDates() {
@@ -65,7 +69,7 @@ const Card = ({ id, name, type, icon }) => {
 				},
 				{
 					withCredentials: true,
-				}
+				},
 			);
 		} catch (e) {
 			toast.error(e?.response?.data?.message || e.message);
@@ -76,21 +80,6 @@ const Card = ({ id, name, type, icon }) => {
 		setDays(getWeekDays());
 		getCompletedDates();
 	}, []);
-
-	useEffect(() => {
-		if (isFirstRender.current) {
-			isFirstRender.current = false;
-			return;
-		}
-
-		const delayDebounceFn = setTimeout(() => {
-			updateCompletedDates();
-		}, 1000);
-
-		return () => {
-			clearTimeout(delayDebounceFn);
-		};
-	}, [completedDates]);
 
 	const currentWeekCount = completedDates
 		? completedDates.filter((date) => days?.includes(date)).length

@@ -7,6 +7,7 @@ import connectToDB from "./config/db.js";
 import authRoutes from "./routes/auth.route.js";
 import userRoutes from "./routes/user.route.js";
 import habitRoutes from "./routes/habit.route.js";
+import prioritiesRoutes from "./routes/priorities.route.js";
 import protectRoute from "./middlewares/protectRoute.js";
 
 dotenv.config();
@@ -20,7 +21,7 @@ app.use(
 	cors({
 		origin: process.env.FRONTEND_URL,
 		credentials: true,
-	})
+	}),
 );
 
 app.get("/", (req, res) => {
@@ -30,6 +31,7 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/user", protectRoute, userRoutes);
 app.use("/api/habit", protectRoute, habitRoutes);
+app.use("/api/priorities", protectRoute, prioritiesRoutes);
 
 app.listen(PORT, () => {
 	connectToDB();
