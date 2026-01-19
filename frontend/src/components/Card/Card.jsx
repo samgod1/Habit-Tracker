@@ -7,15 +7,21 @@ import {
 	PolarAngleAxis,
 	ResponsiveContainer,
 } from "recharts";
+import { BsThreeDotsVertical } from "react-icons/bs";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 
 import getWeekDays from "../../utils/dateUtils";
+import ContextMenu from "../ContextMenu/ContextMenu";
 import "./Card.css";
 
-const Card = ({ id, name, type, icon }) => {
+const Card = ({ id, name, type, icon, habits, setHabits }) => {
 	const [days, setDays] = useState(null);
 	const [completedDates, setCompletedDates] = useState(null);
+	const [isContextMenuOpen, setIsContextMenuOpen] = useState(false);
 
 	const debounceRef = useRef(null);
+	const contextMenuRef = useRef(null);
 
 	//Getting the completed date for this habit
 	async function getCompletedDates() {
@@ -52,11 +58,11 @@ const Card = ({ id, name, type, icon }) => {
 		clearTimeout(debounceRef.current);
 
 		debounceRef.current = setTimeout(() => {
-			updateCompletedDates();
+			updateCompletedDates(newCompletedDates);
 		}, 800);
 	}
 
-	async function updateCompletedDates() {
+	async function updateCompletedDates(updatedCompletedDates) {
 		try {
 			const response = await axios.post(
 				import.meta.env.VITE_BACKEND_URL +
@@ -64,7 +70,7 @@ const Card = ({ id, name, type, icon }) => {
 					id +
 					"/updateCompletedDates",
 				{
-					completedDates: completedDates,
+					completedDates: updatedCompletedDates,
 					habitId: id,
 				},
 				{
@@ -76,10 +82,52 @@ const Card = ({ id, name, type, icon }) => {
 		}
 	}
 
+	function handleMouseDown(e) {
+		if (contextMenuRef.current && !contextMenuRef.current.contains(e.target)) {
+			setIsContextMenuOpen(false);
+			console.log("hello world");
+		}
+	}
+
 	useEffect(() => {
 		setDays(getWeekDays());
 		getCompletedDates();
 	}, []);
+
+	useEffect(() => {
+		if (isContextMenuOpen) {
+			document.addEventListener("mousedown", handleMouseDown);
+		}
+
+		return () => {
+			document.removeEventListener("mousedown", handleMouseDown);
+		};
+	}, [isContextMenuOpen]);
+
+	useGSAP(() => {
+		if (!contextMenuRef.current) {
+			return;
+		}
+
+		if (isContextMenuOpen) {
+			gsap.fromTo(
+				contextMenuRef.current,
+				{
+					yPercent: 50,
+					opacity: 0,
+				},
+				{
+					yPercent: 0,
+					opacity: 1,
+					duration: 0.2,
+				},
+			);
+		} else {
+			gsap.to(contextMenuRef.current, {
+				opacity: 0,
+			});
+		}
+	}, [isContextMenuOpen]);
 
 	const currentWeekCount = completedDates
 		? completedDates.filter((date) => days?.includes(date)).length
@@ -106,26 +154,44 @@ const Card = ({ id, name, type, icon }) => {
 							key={day}
 							onChange={(e) => handleChange(e, day)}
 							checked={completedDates?.includes(day) || false}
-							day={day}
 						/>
 					))}
-					<RadialBarChart
-						width={24}
-						height={24}
-						data={data}
-						innerRadius="40%"
-						outerRadius="100%"
-						startAngle={90}
-						endAngle={-270}
-						margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
-					>
-						<PolarAngleAxis type="number" domain={[0, 7]} tick={false} />
-						<RadialBar
-							dataKey={"value"}
-							background={{ fill: "#e5e7eb" }}
-							fill={type == "good" ? "#238636" : "#b91c1c"}
-						/>
-					</RadialBarChart>
+					<div className="card-actions">
+						<RadialBarChart
+							width={24}
+							height={24}
+							data={data}
+							innerRadius="40%"
+							outerRadius="100%"
+							startAngle={90}
+							endAngle={-270}
+							margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
+						>
+							<PolarAngleAxis type="number" domain={[0, 7]} tick={false} />
+							<RadialBar
+								dataKey={"value"}
+								background={{ fill: "#e5e7eb" }}
+								fill={type == "good" ? "#238636" : "#b91c1c"}
+							/>
+						</RadialBarChart>
+						<div
+							className="three-dots"
+							onClick={(e) => {
+								e.stopPropagation();
+								setIsContextMenuOpen(!isContextMenuOpen);
+							}}
+						>
+							<BsThreeDotsVertical />
+							{isContextMenuOpen && (
+								<ContextMenu
+									ref={contextMenuRef}
+									habits={habits}
+									setHabits={setHabits}
+									id={id}
+								/>
+							)}
+						</div>
+					</div>
 				</div>
 			)}
 		</div>

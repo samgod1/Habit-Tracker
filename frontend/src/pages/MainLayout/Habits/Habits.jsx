@@ -115,7 +115,7 @@ const Habits = () => {
 												"Sun",
 												"",
 											].map((day) => (
-												<span>{day}</span>
+												<span key={day}>{day}</span>
 											))}
 										</div>
 									</div>
@@ -130,6 +130,8 @@ const Habits = () => {
 															name={habit.name}
 															type={habit.type}
 															icon={habit.icon}
+															habits={habits}
+															setHabits={setHabits}
 														/>
 														<hr
 															style={{
@@ -174,6 +176,8 @@ const Habits = () => {
 															name={habit.name}
 															type={habit.type}
 															icon={habit.icon}
+															habits={habits}
+															setHabits={setHabits}
 														/>
 														<hr
 															style={{
@@ -195,7 +199,7 @@ const Habits = () => {
 					<div className="wrapper">
 						<div className="title"> Top 3 Priorites</div>
 						{[1, 2, 3].map((num) => (
-							<div className="input-group">
+							<div className="input-group" key={num}>
 								<input
 									type="checkbox"
 									onChange={handleCheckboxChange}

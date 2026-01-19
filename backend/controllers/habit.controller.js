@@ -6,10 +6,10 @@ export const getAllHabits = async (req, res) => {
 
 		const habits = await Habit.find({ userId: _id });
 
-		res.status(200).json(habits);
+		return res.status(200).json(habits);
 	} catch (e) {
 		console.log(e);
-		res.status(500).json({ message: "Oops! something went wrong" });
+		return res.status(500).json({ message: "Oops! something went wrong" });
 	}
 };
 
@@ -29,10 +29,10 @@ export const createHabit = async (req, res) => {
 			icon: icon,
 		});
 
-		res.status(200).json(newHabit);
+		return res.status(200).json(newHabit);
 	} catch (e) {
 		console.log(e);
-		res.status(500).json({ message: "Oops! something went wrong" });
+		return res.status(500).json({ message: "Oops! something went wrong" });
 	}
 };
 
@@ -41,10 +41,10 @@ export const getCompletedDates = async (req, res) => {
 		const habitId = req.params.id;
 		const response = await Habit.findById(habitId).select("completedDates");
 
-		res.status(200).json({ completedDates: response.completedDates });
+		return res.status(200).json({ completedDates: response.completedDates });
 	} catch (e) {
 		console.log(e);
-		res.status(500).json({ message: "Oops! something went wrong" });
+		return res.status(500).json({ message: "Oops! something went wrong" });
 	}
 };
 
@@ -55,9 +55,20 @@ export const updateCompletedDates = async (req, res) => {
 
 		await Habit.findByIdAndUpdate(habitId, { completedDates: completedDates });
 
-		res.status(200).json({ message: "Updated successfuly" });
+		return res.status(200).json({ message: "Updated successfuly" });
 	} catch (e) {
 		console.log(e);
-		res.status(500).json({ message: "Oops! something went wrong" });
+		return res.status(500).json({ message: "Oops! something went wrong" });
+	}
+};
+
+export const deleteHabit = async (req, res) => {
+	try {
+		const habitId = req.params.id;
+
+		await Habit.findOneAndDelete({ _id: habitId });
+	} catch (e) {
+		console.log(e);
+		return res.status(500).json({ message: "Oops! something went wrong" });
 	}
 };

@@ -1,0 +1,33 @@
+.context-menu {
+	position: absolute;
+	left: 20px;
+	top: 10px;
+	background-color: var(--color-header);
+	z-index: 1;
+	border-radius: 0.5rem;
+	opacity: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+	padding: 0.5rem 0;
+
+	.edit-button {
+		all: unset;
+		display: flex;
+		align-items: center;
+		gap: 0.25rem;
+		padding: 0 1rem;
+	}
+	.delete-button {
+		all: unset;
+		display: flex;
+		align-items: center;
+		gap: 0.25rem;
+		padding: 0 1rem;
+		transition: all 0.3s ease;
+
+		&:hover {
+			color: var(--color-warning-hover);
+		}
+	}
+}

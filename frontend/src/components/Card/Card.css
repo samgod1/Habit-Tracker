@@ -7,6 +7,7 @@
 		display: flex;
 		align-items: center;
 		gap: 0.5rem;
+		cursor: default;
 	}
 
 	.habit-name {
@@ -33,9 +34,21 @@
 			accent-color: var(--color-checkbox-bad);
 		}
 
-		.radial-chart-container {
-			width: 24px;
-			height: 24px;
+		.card-actions {
+			width: 45px;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+
+			.three-dots {
+				all: unset;
+				color: var(--color-primary-text);
+				cursor: pointer;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				position: relative;
+			}
 		}
 	}
 }

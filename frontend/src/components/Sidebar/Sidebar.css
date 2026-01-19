@@ -77,7 +77,7 @@ aside {
 			opacity: 0;
 		}
 		.logout-button:hover {
-			background-color: var(--color-logout-hover);
+			background-color: var(--color-warning-hover);
 		}
 	}
 }

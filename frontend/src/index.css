@@ -30,7 +30,7 @@
 	--color-text: var(--c-black);
 	--color-btn-text: var(--c-white);
 	--color-slider: var(--c-dark-purple);
-	--color-logout-hover: var(--c-red);
+	--color-warning-hover: var(--c-red);
 	--color-btn-create: var(--c-dark-green);
 	--color-btn-create-hover: var(--c-lighter-green);
 	--color-checkbox-good: var(--c-green);
