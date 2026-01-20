@@ -1,12 +1,13 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { FaPen } from "react-icons/fa";
 import EmojiPicker from "emoji-picker-react";
 import axios from "axios";
 import toast from "react-hot-toast";
 
 import "./Dialog.css";
+import { HabitContext } from "../../contexts/HabitContext";
 
-const Dialog = ({ setIsDialogOpen, setHabits }) => {
+const Dialog = ({ setIsDialogOpen, habitToEdit, setHabitToEdit }) => {
 	const [isOpen, setIsOpen] = useState(false);
 
 	const emojiPicker = useRef(null);
@@ -16,28 +17,50 @@ const Dialog = ({ setIsDialogOpen, setHabits }) => {
 	const nameRef = useRef(null);
 	const typeRef = useRef(null);
 
+	const { habits, setHabits } = useContext(HabitContext);
+
 	function handleEmojiClick(emojiData) {
 		emojiDisplay.current.innerText = emojiData.emoji;
 	}
 
-	async function createHabit() {
+	async function createOrUpdateHabit() {
 		const icon = emojiDisplay.current.innerText;
 		const name = nameRef.current.value;
 		const type = typeRef.current.value;
 
 		try {
-			const response = await axios.post(
-				import.meta.env.VITE_BACKEND_URL + "/api/habit/create",
-				{
-					icon: icon,
-					name: name,
-					type: type,
-				},
-				{
-					withCredentials: true,
-				}
-			);
-			setHabits((prev) => [...prev, response.data]);
+			if (!habitToEdit) {
+				const response = await axios.post(
+					import.meta.env.VITE_BACKEND_URL + "/api/habit/create",
+					{
+						icon: icon,
+						name: name,
+						type: type,
+					},
+					{
+						withCredentials: true,
+					},
+				);
+				setHabits((prev) => [...prev, response.data]);
+			} else {
+				const response = await axios.put(
+					import.meta.env.VITE_BACKEND_URL + "/api/habit/" + habitToEdit._id,
+					{
+						icon: icon,
+						name: name,
+						type: type,
+					},
+					{ withCredentials: true },
+				);
+
+				setHabits((prev) =>
+					prev.map((habit) =>
+						habitToEdit._id == habit._id ? response.data : habit,
+					),
+				);
+
+				setHabitToEdit(null);
+			}
 			setIsDialogOpen(false);
 		} catch (e) {
 			toast.error(e?.response?.data?.message || e);
@@ -46,7 +69,6 @@ const Dialog = ({ setIsDialogOpen, setHabits }) => {
 
 	useEffect(() => {
 		function handleMouseDown(e) {
-			console.log(!emojiPicker.current.contains(e.target));
 			if (
 				emojiPicker.current &&
 				!emojiPicker.current.contains(e.target) &&
@@ -54,6 +76,7 @@ const Dialog = ({ setIsDialogOpen, setHabits }) => {
 				!buttonRef.current.contains(e.target)
 			) {
 				setIsOpen(false);
+				setHabitToEdit(null);
 			}
 		}
 
@@ -65,6 +88,15 @@ const Dialog = ({ setIsDialogOpen, setHabits }) => {
 			document.removeEventListener("mousedown", handleMouseDown);
 		};
 	}, [isOpen]);
+
+	useEffect(() => {
+		if (habitToEdit) {
+			if (emojiDisplay.current)
+				emojiDisplay.current.innerText = habitToEdit.icon;
+			if (nameRef.current) nameRef.current.value = habitToEdit.name;
+			if (typeRef.current) typeRef.current.value = habitToEdit.type;
+		}
+	}, [habitToEdit]);
 
 	return (
 		<>
@@ -124,8 +156,8 @@ const Dialog = ({ setIsDialogOpen, setHabits }) => {
 						<option value="pm">Pm</option>
 					</select>
 				</div>
-				<button className="create-button" onClick={createHabit}>
-					Create
+				<button className="create-button" onClick={createOrUpdateHabit}>
+					{habitToEdit ? "Edit" : "Create"}
 				</button>
 			</div>
 		</>

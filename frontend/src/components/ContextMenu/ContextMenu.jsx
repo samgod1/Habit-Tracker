@@ -1,17 +1,22 @@
-import React from "react";
+import React, { useContext } from "react";
 import { MdEdit } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
 
 import "./ContextMenu.css";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { HabitContext } from "../../contexts/HabitContext";
 
-const ContextMenu = ({ ref, setHabits, habits, id }) => {
-	function handleEdit(e) {
-		// e.stopPropagation();
+const ContextMenu = ({ ref, id, setHabitToEdit, setIsDialogOpen }) => {
+	const { habits, setHabits } = useContext(HabitContext);
+
+	function handleEditButton() {
+		const habitToEdit = habits.find((habit) => habit._id == id);
+		setHabitToEdit(habitToEdit);
+		setIsDialogOpen(true);
 	}
 
-	async function handleDelete() {
+	async function handleDeleteButton() {
 		const newHabits = habits.filter((habit) => {
 			return habit._id != id;
 		});
@@ -36,11 +41,11 @@ const ContextMenu = ({ ref, setHabits, habits, id }) => {
 				e.stopPropagation();
 			}}
 		>
-			<button className="edit-button" onClick={handleEdit}>
+			<button className="edit-button" onClick={handleEditButton}>
 				<MdEdit />
 				<span>Edit</span>
 			</button>
-			<button className="delete-button" onClick={handleDelete}>
+			<button className="delete-button" onClick={handleDeleteButton}>
 				<MdDelete />
 				<span>Delete</span>
 			</button>

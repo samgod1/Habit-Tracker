@@ -14,6 +14,8 @@ const Habits = () => {
 		2: { text: "", checked: false },
 		3: { text: "", checked: false },
 	});
+	const [habitToEdit, setHabitToEdit] = useState(null);
+
 	const debounceRef = useRef(null);
 
 	const { habits, setHabits, loading } = useContext(HabitContext);
@@ -130,8 +132,8 @@ const Habits = () => {
 															name={habit.name}
 															type={habit.type}
 															icon={habit.icon}
-															habits={habits}
-															setHabits={setHabits}
+															setHabitToEdit={setHabitToEdit}
+															setIsDialogOpen={setIsDialogOpen}
 														/>
 														<hr
 															style={{
@@ -176,8 +178,8 @@ const Habits = () => {
 															name={habit.name}
 															type={habit.type}
 															icon={habit.icon}
-															habits={habits}
-															setHabits={setHabits}
+															setHabitToEdit={setHabitToEdit}
+															setIsDialogOpen={setIsDialogOpen}
 														/>
 														<hr
 															style={{
@@ -218,7 +220,11 @@ const Habits = () => {
 				</section>
 			</main>
 			{isDialogOpen && (
-				<Dialog setIsDialogOpen={setIsDialogOpen} setHabits={setHabits} />
+				<Dialog
+					setIsDialogOpen={setIsDialogOpen}
+					habitToEdit={habitToEdit}
+					setHabitToEdit={setHabitToEdit}
+				/>
 			)}
 		</div>
 	);

@@ -16,14 +16,14 @@
 		display: flex;
 		align-items: center;
 		gap: 0.25rem;
-		padding: 0 1rem;
+		padding: 2px 1rem;
 	}
 	.delete-button {
 		all: unset;
 		display: flex;
 		align-items: center;
 		gap: 0.25rem;
-		padding: 0 1rem;
+		padding: 2px 1rem;
 		transition: all 0.3s ease;
 
 		&:hover {

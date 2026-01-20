@@ -15,7 +15,7 @@ import getWeekDays from "../../utils/dateUtils";
 import ContextMenu from "../ContextMenu/ContextMenu";
 import "./Card.css";
 
-const Card = ({ id, name, type, icon, habits, setHabits }) => {
+const Card = ({ id, name, type, icon, setHabitToEdit, setIsDialogOpen }) => {
 	const [days, setDays] = useState(null);
 	const [completedDates, setCompletedDates] = useState(null);
 	const [isContextMenuOpen, setIsContextMenuOpen] = useState(false);
@@ -85,7 +85,6 @@ const Card = ({ id, name, type, icon, habits, setHabits }) => {
 	function handleMouseDown(e) {
 		if (contextMenuRef.current && !contextMenuRef.current.contains(e.target)) {
 			setIsContextMenuOpen(false);
-			console.log("hello world");
 		}
 	}
 
@@ -113,7 +112,7 @@ const Card = ({ id, name, type, icon, habits, setHabits }) => {
 			gsap.fromTo(
 				contextMenuRef.current,
 				{
-					yPercent: 50,
+					yPercent: 25,
 					opacity: 0,
 				},
 				{
@@ -185,9 +184,9 @@ const Card = ({ id, name, type, icon, habits, setHabits }) => {
 							{isContextMenuOpen && (
 								<ContextMenu
 									ref={contextMenuRef}
-									habits={habits}
-									setHabits={setHabits}
 									id={id}
+									setHabitToEdit={setHabitToEdit}
+									setIsDialogOpen={setIsDialogOpen}
 								/>
 							)}
 						</div>

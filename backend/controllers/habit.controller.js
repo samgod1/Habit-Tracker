@@ -62,6 +62,24 @@ export const updateCompletedDates = async (req, res) => {
 	}
 };
 
+export const editHabit = async (req, res) => {
+	try {
+		const id = req.params.id;
+		const { icon, name, type } = req.body;
+
+		const updatedHabit = await Habit.findOneAndUpdate(
+			{ _id: id },
+			{ icon: icon, name: name, type: type },
+			{ new: true },
+		);
+
+		return res.status(200).json(updatedHabit);
+	} catch (e) {
+		console.log(e);
+		return res.status(500).json({ message: "Oops! something went wrong" });
+	}
+};
+
 export const deleteHabit = async (req, res) => {
 	try {
 		const habitId = req.params.id;
