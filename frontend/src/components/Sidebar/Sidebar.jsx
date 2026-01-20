@@ -38,10 +38,11 @@ const Sidebar = () => {
 			const activeLink = containerRef.current.querySelector(
 				`[data-link = ${selectedLink}]`,
 			);
-			gsap.set(".border", {
-				y: activeLink.offsetTop,
-				height: activeLink.offsetHeight,
-			});
+			if (activeLink && borderRef.current) {
+				borderRef.current.style.transition = "none";
+				borderRef.current.style.transform = `translateY(${activeLink.offsetTop}px)`;
+				borderRef.current.style.height = `${activeLink.offsetHeight}px`;
+			}
 		}
 	}, [loading]);
 
@@ -53,13 +54,16 @@ const Sidebar = () => {
 				`[data-link = ${selectedLink}]`,
 			);
 
-			gsap.to(".border", {
-				y: activeLink.offsetTop,
-				height: activeLink.offsetHeight,
-				duration: 0.3,
-			});
+			if (activeLink && borderRef.current) {
+				borderRef.current.style.transition =
+					"transform 0.5s cubic-bezier(0.19, 1, 0.22, 1), height 0.5s cubic-bezier(0.19, 1, 0.22, 1)";
+
+				// Triggers the animation
+				borderRef.current.style.transform = `translateY(${activeLink.offsetTop}px)`;
+				borderRef.current.style.height = `${activeLink.offsetHeight}px`;
+			}
 		}
-	}, [location.pathname]);
+	}, [location.pathname, loading]);
 
 	useGSAP(() => {
 		if (isOpen) {

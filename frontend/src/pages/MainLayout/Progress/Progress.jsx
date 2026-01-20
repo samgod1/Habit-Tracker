@@ -22,7 +22,7 @@ const Progress = () => {
 
 	function convertDataforChart() {
 		const allHabitsCompletedDates = habits.flatMap(
-			(habit) => habit.completedDates
+			(habit) => habit.completedDates,
 		);
 
 		const counts = {};
