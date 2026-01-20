@@ -35,6 +35,7 @@
 	--color-btn-create-hover: var(--c-lighter-green);
 	--color-checkbox-good: var(--c-green);
 	--color-checkbox-bad: var(--c-red);
+	--color-btn-get-started: var(--c-dark-green);
 }
 
 @font-face {

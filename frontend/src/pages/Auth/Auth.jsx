@@ -52,7 +52,7 @@ const Auth = () => {
 			navigate("/habits");
 			toast.success("Login successful");
 		} catch (e) {
-			console.log(e);
+			toast.error(e?.response?.data?.message || e.message);
 		}
 	}
 

@@ -15,7 +15,7 @@ export const UserProvider = ({ children }) => {
 				data,
 				{
 					withCredentials: true,
-				}
+				},
 			);
 			setUser(response);
 			setLoading(false);
@@ -33,10 +33,9 @@ export const UserProvider = ({ children }) => {
 				data,
 				{
 					withCredentials: true,
-				}
+				},
 			);
-			setUser(response);
-			setLoading(false);
+			setUser(response.data);
 			toast.success("Login Successful");
 		} catch (e) {
 			console.log(e);
@@ -52,7 +51,7 @@ export const UserProvider = ({ children }) => {
 				{},
 				{
 					withCredentials: true,
-				}
+				},
 			);
 		} catch (e) {
 			console.log(e);
@@ -68,10 +67,9 @@ export const UserProvider = ({ children }) => {
 				import.meta.env.VITE_BACKEND_URL + "/api/user/",
 				{
 					withCredentials: true,
-				}
+				},
 			);
 			setUser(response.data);
-			setLoading(false);
 		} catch (e) {
 			console.log(e);
 			setUser(null);
@@ -82,6 +80,12 @@ export const UserProvider = ({ children }) => {
 	useEffect(() => {
 		fetchUserData();
 	}, []);
+
+	useEffect(() => {
+		if (user) {
+			setLoading(false);
+		}
+	}, [user]);
 
 	return (
 		<userContext.Provider value={{ user, loading, signup, login, logout }}>

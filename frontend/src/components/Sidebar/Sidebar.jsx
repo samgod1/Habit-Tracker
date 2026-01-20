@@ -36,7 +36,7 @@ const Sidebar = () => {
 
 			//This is for setting the border according to the links height
 			const activeLink = containerRef.current.querySelector(
-				`[data-link = ${selectedLink}]`
+				`[data-link = ${selectedLink}]`,
 			);
 			gsap.set(".border", {
 				y: activeLink.offsetTop,
@@ -50,7 +50,7 @@ const Sidebar = () => {
 			const selectedLink = pathMap[location.pathname];
 
 			const activeLink = containerRef.current.querySelector(
-				`[data-link = ${selectedLink}]`
+				`[data-link = ${selectedLink}]`,
 			);
 
 			gsap.to(".border", {
@@ -88,6 +88,8 @@ const Sidebar = () => {
 	if (loading) {
 		return <div className="loading">Loading</div>;
 	}
+
+	console.log(user?.email);
 
 	return (
 		<aside>
