@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import {
@@ -14,6 +14,7 @@ import { useGSAP } from "@gsap/react";
 import getWeekDays from "../../utils/dateUtils";
 import ContextMenu from "../ContextMenu/ContextMenu";
 import "./Card.css";
+import { userContext } from "../../contexts/UserContext";
 
 const Card = ({ id, name, type, icon, setHabitToEdit, setIsDialogOpen }) => {
 	const [days, setDays] = useState(null);
@@ -22,6 +23,8 @@ const Card = ({ id, name, type, icon, setHabitToEdit, setIsDialogOpen }) => {
 
 	const debounceRef = useRef(null);
 	const contextMenuRef = useRef(null);
+
+	const { setHabits } = useContext(userContext);
 
 	//Getting the completed date for this habit
 	async function getCompletedDates() {
@@ -76,6 +79,14 @@ const Card = ({ id, name, type, icon, setHabitToEdit, setIsDialogOpen }) => {
 				{
 					withCredentials: true,
 				},
+			);
+
+			setHabits((prevHabits) =>
+				prevHabits.map((habit) =>
+					habit.id === id
+						? { ...habit, completedDates: updatedCompletedDates }
+						: habit,
+				),
 			);
 		} catch (e) {
 			toast.error(e?.response?.data?.message || e.message);

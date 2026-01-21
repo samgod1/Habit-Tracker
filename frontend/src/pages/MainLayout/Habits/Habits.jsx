@@ -18,7 +18,7 @@ const Habits = () => {
 
 	const debounceRef = useRef(null);
 
-	const { habits, setHabits, loading } = useContext(HabitContext);
+	const { habits, loading } = useContext(HabitContext);
 
 	function handlePriorityChange(e) {
 		const value = e.target.value;

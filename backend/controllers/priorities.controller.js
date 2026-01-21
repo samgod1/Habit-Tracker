@@ -11,9 +11,9 @@ export const getPriorites = async (req, res) => {
 			const newPriorities = await Priorities.create({
 				userId: _id,
 				priorities: {
-					1: "",
-					2: "",
-					3: "",
+					1: { text: "", checked: false },
+					2: { text: "", checked: false },
+					3: { text: "", checked: false },
 				},
 			});
 			return res.status(200).json(newPriorities.priorities);

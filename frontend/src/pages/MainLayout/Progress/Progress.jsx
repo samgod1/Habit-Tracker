@@ -52,6 +52,7 @@ const Progress = () => {
 		}
 	}, [habits]);
 
+	console.log(weeklyData);
 	return (
 		<div className="progress-page">
 			<header>

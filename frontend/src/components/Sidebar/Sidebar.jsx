@@ -93,8 +93,6 @@ const Sidebar = () => {
 		return <div className="loading">Loading</div>;
 	}
 
-	console.log(user?.email);
-
 	return (
 		<aside>
 			<span className="website-name">Habit Tracker</span>
