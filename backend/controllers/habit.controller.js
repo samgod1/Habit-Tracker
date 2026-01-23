@@ -1,4 +1,5 @@
 import Habit from "../models/Habit.js";
+import calculateStreak from "../utils/calculateStreak.js";
 
 export const getAllHabits = async (req, res) => {
 	try {
@@ -41,7 +42,11 @@ export const getCompletedDates = async (req, res) => {
 		const habitId = req.params.id;
 		const response = await Habit.findById(habitId).select("completedDates");
 
-		return res.status(200).json({ completedDates: response.completedDates });
+		const streak = calculateStreak(response.completedDates);
+
+		return res
+			.status(200)
+			.json({ completedDates: response.completedDates, streak: streak });
 	} catch (e) {
 		console.log(e);
 		return res.status(500).json({ message: "Oops! something went wrong" });
@@ -55,7 +60,11 @@ export const updateCompletedDates = async (req, res) => {
 
 		await Habit.findByIdAndUpdate(habitId, { completedDates: completedDates });
 
-		return res.status(200).json({ message: "Updated successfuly" });
+		const streak = calculateStreak(completedDates);
+
+		return res
+			.status(200)
+			.json({ message: "Updated successfuly", streak: streak });
 	} catch (e) {
 		console.log(e);
 		return res.status(500).json({ message: "Oops! something went wrong" });

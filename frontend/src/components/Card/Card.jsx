@@ -20,6 +20,7 @@ const Card = ({ id, name, type, icon, setHabitToEdit, setIsDialogOpen }) => {
 	const [days, setDays] = useState(null);
 	const [completedDates, setCompletedDates] = useState(null);
 	const [isContextMenuOpen, setIsContextMenuOpen] = useState(false);
+	const [streak, setStreak] = useState(0);
 
 	const debounceRef = useRef(null);
 	const contextMenuRef = useRef(null);
@@ -40,6 +41,7 @@ const Card = ({ id, name, type, icon, setHabitToEdit, setIsDialogOpen }) => {
 			);
 
 			setCompletedDates(response.data.completedDates);
+			setStreak(response.data.streak);
 		} catch (e) {
 			console.log(e);
 			toast.error(e?.response?.data?.message || e.message);
@@ -81,13 +83,7 @@ const Card = ({ id, name, type, icon, setHabitToEdit, setIsDialogOpen }) => {
 				},
 			);
 
-			setHabits((prevHabits) =>
-				prevHabits.map((habit) =>
-					habit.id === id
-						? { ...habit, completedDates: updatedCompletedDates }
-						: habit,
-				),
-			);
+			setStreak(response.data.streak);
 		} catch (e) {
 			toast.error(e?.response?.data?.message || e.message);
 		}
@@ -113,6 +109,8 @@ const Card = ({ id, name, type, icon, setHabitToEdit, setIsDialogOpen }) => {
 			document.removeEventListener("mousedown", handleMouseDown);
 		};
 	}, [isContextMenuOpen]);
+
+	useEffect(() => {}, [completedDates]);
 
 	useGSAP(() => {
 		if (!contextMenuRef.current) {
@@ -151,6 +149,7 @@ const Card = ({ id, name, type, icon, setHabitToEdit, setIsDialogOpen }) => {
 
 	return (
 		<div className="card">
+			<div className="streak"></div>
 			<div className="wrapper">
 				<div className="icon">{icon}</div>
 				<div className="habit-name">{name}</div>
