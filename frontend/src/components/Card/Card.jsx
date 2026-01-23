@@ -149,10 +149,33 @@ const Card = ({ id, name, type, icon, setHabitToEdit, setIsDialogOpen }) => {
 
 	return (
 		<div className="card">
-			<div className="streak"></div>
 			<div className="wrapper">
-				<div className="icon">{icon}</div>
-				<div className="habit-name">{name}</div>
+				<div className="streak-wrapper">
+					<span className="streak">{streak}</span>
+					{streak > 0 ? (
+						<span className="img">
+							<img
+								src="/images/fire.svg"
+								alt="fire-icon"
+								height={24}
+								width={24}
+							/>
+						</span>
+					) : (
+						<span className="img">
+							<img
+								src="/images/fire-not-lit.svg"
+								alt="fire-icon"
+								height={24}
+								width={24}
+							/>
+						</span>
+					)}
+				</div>
+				<div className="icon-and-name">
+					<div className="icon">{icon}</div>
+					<div className="habit-name">{name}</div>
+				</div>
 			</div>
 			{days && (
 				<div className="checkboxes-container">

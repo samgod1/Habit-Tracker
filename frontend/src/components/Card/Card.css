@@ -8,12 +8,31 @@
 		align-items: center;
 		gap: 0.5rem;
 		cursor: default;
-	}
-
-	.habit-name {
 		color: var(--color-primary-text);
-		font-size: 1.25rem;
-		padding: 0.5rem 0rem;
+
+		.streak-wrapper {
+			display: flex;
+			align-items: center;
+			gap: 0.25rem;
+
+			.streak {
+				display: inline-block;
+				width: 0.5rem;
+				text-align: center;
+			}
+		}
+
+		.icon-and-name {
+			display: flex;
+			align-items: center;
+			gap: 0.25rem;
+
+			.habit-name {
+				color: var(--color-primary-text);
+				font-size: 1.25rem;
+				padding: 0.5rem 0rem;
+			}
+		}
 	}
 
 	.checkboxes-container {
