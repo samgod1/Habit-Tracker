@@ -25,8 +25,6 @@ const Card = ({ id, name, type, icon, setHabitToEdit, setIsDialogOpen }) => {
 	const debounceRef = useRef(null);
 	const contextMenuRef = useRef(null);
 
-	const { setHabits } = useContext(userContext);
-
 	//Getting the completed date for this habit
 	async function getCompletedDates() {
 		try {
@@ -41,6 +39,7 @@ const Card = ({ id, name, type, icon, setHabitToEdit, setIsDialogOpen }) => {
 			);
 
 			setCompletedDates(response.data.completedDates);
+			console.log(response.data);
 			setStreak(response.data.streak);
 		} catch (e) {
 			console.log(e);

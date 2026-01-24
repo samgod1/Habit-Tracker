@@ -46,13 +46,17 @@ function calculateStreak(completedDates) {
 
 	const length = completedDates.length;
 
+	if (length == 0) {
+		return streak;
+	}
+
 	const lastCompletedDay = completedDates[length - 1];
 
 	if (today != lastCompletedDay && yesterday != lastCompletedDay) {
 		return streak;
 	}
 
-	let currentDay = today;
+	let currentDay = today == lastCompletedDay ? today : yesterday;
 
 	while (completedDates.includes(currentDay)) {
 		streak++;

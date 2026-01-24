@@ -42,6 +42,10 @@ export const getCompletedDates = async (req, res) => {
 		const habitId = req.params.id;
 		const response = await Habit.findById(habitId).select("completedDates");
 
+		if (!response) {
+			return res.status(400).json({ message: "Habit not found" });
+		}
+
 		const streak = calculateStreak(response.completedDates);
 
 		return res
