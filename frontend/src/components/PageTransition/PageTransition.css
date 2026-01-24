@@ -1,0 +1,33 @@
+.transition-wrapper {
+	.transition {
+		position: fixed;
+		top: 0;
+		left: 0;
+		background-color: transparent;
+		width: 100vw;
+		height: 100dvh;
+		background-color: transparent;
+		z-index: 20;
+		display: flex;
+		flex-direction: column;
+		pointer-events: none;
+
+		.transition-row {
+			flex: 1;
+			display: flex;
+		}
+
+		.block {
+			flex: 1;
+			background-color: blue;
+			height: 100%;
+			transform: scaleY(0);
+		}
+		.row-1 .block {
+			transform-origin: top;
+		}
+		.row-2 .block {
+			transform-origin: bottom;
+		}
+	}
+}

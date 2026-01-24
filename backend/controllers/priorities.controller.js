@@ -5,7 +5,6 @@ export const getPriorites = async (req, res) => {
 		const { _id } = req.user;
 
 		const priorities = await Priorities.findOne({ userId: _id });
-		console.log(priorities);
 
 		if (!priorities) {
 			const newPriorities = await Priorities.create({

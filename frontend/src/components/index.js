@@ -3,5 +3,6 @@ import Card from "./Card/Card";
 import Dialog from "./Dialog/Dialog";
 import NoHabit from "./NoHabit/NoHabit";
 import ContextMenu from "./ContextMenu/ContextMenu";
+import PageTransition from "./PageTransition/PageTransition";
 
-export { Sidebar, Card, Dialog, NoHabit, ContextMenu };
+export { Sidebar, Card, Dialog, NoHabit, ContextMenu, PageTransition };

@@ -1,12 +1,13 @@
-import React from "react";
 import { useNavigate } from "react-router-dom";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import { useContext } from "react";
 
 import "./Home.css";
+import { PageTransitionContext } from "../../components/PageTransition/PageTransition";
 
 const Home = () => {
-	const navigate = useNavigate();
+	const { handlePageChange } = useContext(PageTransitionContext);
 
 	useGSAP(() => {
 		const tl = gsap.timeline();
@@ -21,6 +22,7 @@ const Home = () => {
 			duration: 0.5,
 		});
 	}, []);
+
 	return (
 		<main className="home">
 			<section className="hero-section">
@@ -32,7 +34,7 @@ const Home = () => {
 					<button
 						className="get-started"
 						onClick={() => {
-							navigate("/auth");
+							handlePageChange("/auth");
 						}}
 					>
 						Get Started
