@@ -15,6 +15,7 @@ import getWeekDays from "../../utils/dateUtils";
 import ContextMenu from "../ContextMenu/ContextMenu";
 import "./Card.css";
 import { userContext } from "../../contexts/UserContext";
+import { HabitContext } from "../../contexts/HabitContext";
 
 const Card = ({ id, name, type, icon, setHabitToEdit, setIsDialogOpen }) => {
 	const [days, setDays] = useState(null);
@@ -24,6 +25,8 @@ const Card = ({ id, name, type, icon, setHabitToEdit, setIsDialogOpen }) => {
 
 	const debounceRef = useRef(null);
 	const contextMenuRef = useRef(null);
+
+	const { habits, setHabits } = useContext(HabitContext);
 
 	//Getting the completed date for this habit
 	async function getCompletedDates() {
@@ -39,8 +42,17 @@ const Card = ({ id, name, type, icon, setHabitToEdit, setIsDialogOpen }) => {
 			);
 
 			setCompletedDates(response.data.completedDates);
-			console.log(response.data);
 			setStreak(response.data.streak);
+
+			//This is needed to update the progress chart instantly
+			setHabits((prev) =>
+				prev.map((habit) => {
+					if (habit._id === id) {
+						return { ...habit, completedDates: response.data.completedDates };
+					}
+					return habit;
+				}),
+			);
 		} catch (e) {
 			console.log(e);
 			toast.error(e?.response?.data?.message || e.message);
@@ -83,6 +95,16 @@ const Card = ({ id, name, type, icon, setHabitToEdit, setIsDialogOpen }) => {
 			);
 
 			setStreak(response.data.streak);
+
+			//This is needed to update the progress chart instantly
+			setHabits((prev) =>
+				prev.map((habit) => {
+					if (habit._id == id) {
+						return { ...habit, completedDates: updatedCompletedDates };
+					}
+					return { habit };
+				}),
+			);
 		} catch (e) {
 			toast.error(e?.response?.data?.message || e.message);
 		}

@@ -48,11 +48,11 @@ const Progress = () => {
 
 	useEffect(() => {
 		if (habits.length != 0) {
+			console.log("hello");
 			convertDataforChart();
 		}
 	}, [habits]);
 
-	console.log(weeklyData);
 	return (
 		<div className="progress-page">
 			<header>
