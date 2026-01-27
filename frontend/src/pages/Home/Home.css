@@ -39,4 +39,17 @@
 			}
 		}
 	}
+	.spotlight-section {
+		position: relative;
+		height: 500dvh;
+
+		svg {
+			position: absolute;
+			width: 100%;
+			left: 50%;
+			transform: translateX(-50%);
+		}
+		#svg-path {
+		}
+	}
 }
