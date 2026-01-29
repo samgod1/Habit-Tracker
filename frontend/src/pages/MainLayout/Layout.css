@@ -1,6 +1,7 @@
 .layout {
 	display: flex;
-	height: 100dvh;
+	min-height: 100dvh;
+	position: relative;
 
 	.layout-content {
 		flex-grow: 1;

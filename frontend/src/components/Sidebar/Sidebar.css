@@ -5,9 +5,11 @@
 }
 
 aside {
+	position: sticky;
+	top: 0;
 	width: 25vw;
 	max-width: 300px;
-	height: 100%;
+	height: 100vh;
 	display: flex;
 	flex-direction: column;
 	padding: 0rem 1.5rem;

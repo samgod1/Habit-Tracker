@@ -7,6 +7,8 @@ import {
 	CartesianGrid,
 	ResponsiveContainer,
 } from "recharts";
+import Tooltip from "@uiw/react-tooltip";
+import HeatMap from "@uiw/react-heat-map";
 import { HabitContext } from "../../../contexts/HabitContext";
 
 import "./Progress.css";
@@ -14,13 +16,19 @@ import getDayFromDate from "../../../utils/getDayFromDate";
 import getWeekDays from "../../../utils/dateUtils";
 
 const Progress = () => {
+	const [completeData, setCompleteData] = useState([]);
 	const [weeklyData, setWeeklyData] = useState([]);
+	// weekly data format
+	// {
+	// 	day: "Sun",
+	// 	date: "2082-01-21",
+	// 	count: "5",
+	// }
 
 	const { habits } = useContext(HabitContext);
 
-	const weekDays = getWeekDays();
-
 	function convertDataforChart() {
+		const weekDays = getWeekDays();
 		const allHabitsCompletedDates = habits.flatMap(
 			(habit) => habit.completedDates,
 		);
@@ -48,9 +56,41 @@ const Progress = () => {
 
 	useEffect(() => {
 		if (habits.length != 0) {
-			console.log("hello");
 			convertDataforChart();
 		}
+	}, [habits]);
+
+	const data = [
+		{ date: "2016/01/11", count: 2 },
+		{ date: "2016/04/12", count: 2 },
+		{ date: "2016/05/01", count: 17 },
+		{ date: "2016/05/02", count: 5 },
+		{ date: "2016/05/03", count: 27 },
+		{ date: "2016/05/04", count: 11 },
+		{ date: "2016/05/08", count: 32 },
+	];
+
+	console.log(weeklyData);
+	useEffect(() => {
+		const allCompletedDates = habits.flatMap((habit) => habit.completedDates);
+
+		const count = {};
+
+		for (const date of allCompletedDates) {
+			if (count[date]) {
+				count[date] += 1;
+			} else {
+				count[date] = 1;
+			}
+		}
+
+		const allCompletedData = Object.keys(count).map((date) => ({
+			date: date,
+			count: count[date],
+			day: getDayFromDate(date),
+		}));
+
+		setCompleteData(allCompletedData);
 	}, [habits]);
 
 	return (
@@ -59,9 +99,29 @@ const Progress = () => {
 				<span>My Progress</span>
 			</header>
 			<main>
+				<div className="github-calendar-container">
+					<HeatMap
+						value={completeData}
+						width={"100%"}
+						rectSize={14}
+						startDate={new Date("2026/01/01")}
+						style={{
+							color: "var(--color-primary-text)",
+							paddingBottom: "2rem",
+						}}
+						rectRender={(props, data) => {
+							// if (!data.count) return <rect {...props} />;
+							return (
+								<Tooltip placement="top" content={`count: ${data.count || 0}`}>
+									<rect {...props} />
+								</Tooltip>
+							);
+						}}
+					/>
+				</div>
 				<div className="chart-wrapper">
 					<ResponsiveContainer>
-						<LineChart data={weeklyData} width={100} height={200}>
+						<LineChart data={weeklyData}>
 							<Line dataKey={"count"} />
 							<XAxis dataKey={"day"} />
 							<YAxis
