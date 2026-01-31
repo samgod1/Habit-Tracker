@@ -18,18 +18,13 @@ import getWeekDays from "../../../utils/dateUtils";
 const Progress = () => {
 	//USE_STATES
 	const [data, setData] = useState([]);
+	//Using a seperate state for heatMapData cuz HeatMap changes the date from "2026-01-01" to "2026/01/01"
+	const [heatMapData, setHeatMapData] = useState([]);
 	const [weeklyData, setWeeklyData] = useState([]);
 	const [monthlyData, setMonthlyData] = useState([]);
 	const [yearlyData, setYearlyData] = useState([]);
-	const [progressSelectValue, setProgressSelectValue] =
-		useState("weekly-progress");
 
-	// WEEKLY DATA FORMAT
-	// {
-	// 	day: "Sun",
-	// 	date: "2082-01-21",
-	// 	count: "5",
-	// }
+	const selectRef = useRef(null);
 
 	const { habits } = useContext(HabitContext);
 
@@ -48,7 +43,6 @@ const Progress = () => {
 		}
 
 		const convertedData = Object.keys(count).map((date) => {
-			console.log(date);
 			return {
 				date: date,
 				count: count[date],
@@ -56,8 +50,8 @@ const Progress = () => {
 			};
 		});
 
-		console.log(convertedData);
 		setData(convertedData);
+		setHeatMapData(convertedData);
 	}
 
 	function convertToWeeklyData() {
@@ -84,38 +78,20 @@ const Progress = () => {
 
 	function convertToYearlyData() {}
 
-	function handleSelectChange(e) {
-		setProgressSelectValue(e.target.value);
-	}
-
 	//USE_EFFECTS
-	// useEffect(() => {
-	// 	if (habits.length != 0) {
-	// 		convertDataforChart();
-	// 	}
-	// }, [habits]);
-
-	// const data = [
-	// 	{ date: "2016/01/11", count: 2 },
-	// 	{ date: "2016/04/12", count: 2 },
-	// 	{ date: "2016/05/01", count: 17 },
-	// 	{ date: "2016/05/02", count: 5 },
-	// 	{ date: "2016/05/03", count: 27 },
-	// 	{ date: "2016/05/04", count: 11 },
-	// 	{ date: "2016/05/08", count: 32 },
-	// ];
-
 	useEffect(() => {
-		if (habits != []) {
+		if (habits.length != 0) {
 			convertToData();
 		}
 	}, [habits]);
 
 	useEffect(() => {
-		if (progressSelectValue === "weekly-progress") {
-			convertToWeeklyData();
+		if (data.length == 0) {
+			return;
 		}
-	}, [data, progressSelectValue]);
+		if (selectRef.current?.value == "weelky-progress") {
+		}
+	}, [data, selectRef]);
 
 	return (
 		<div className="progress-page">
@@ -125,7 +101,7 @@ const Progress = () => {
 			<main>
 				<div className="github-calendar-container">
 					<HeatMap
-						value={data.map((d) => ({ ...d }))}
+						value={heatMapData}
 						width={"100%"}
 						rectSize={14}
 						startDate={new Date("2026/01/01")}
@@ -156,7 +132,7 @@ const Progress = () => {
 						</LineChart>
 					</ResponsiveContainer>
 				</div>
-				<select className="progress-select" onChange={handleSelectChange}>
+				<select className="progress-select">
 					<option value="weekly-progress">Weekly Progress</option>
 					<option value="monthly-progress">Monthly Progress</option>
 					<option value="yearly-progress">Yearly Progress</option>
