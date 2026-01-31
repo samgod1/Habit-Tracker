@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import {
 	Line,
 	LineChart,
@@ -16,9 +16,15 @@ import getDayFromDate from "../../../utils/getDayFromDate";
 import getWeekDays from "../../../utils/dateUtils";
 
 const Progress = () => {
-	const [completeData, setCompleteData] = useState([]);
+	//USE_STATES
+	const [data, setData] = useState([]);
 	const [weeklyData, setWeeklyData] = useState([]);
-	// weekly data format
+	const [monthlyData, setMonthlyData] = useState([]);
+	const [yearlyData, setYearlyData] = useState([]);
+	const [progressSelectValue, setProgressSelectValue] =
+		useState("weekly-progress");
+
+	// WEEKLY DATA FORMAT
 	// {
 	// 	day: "Sun",
 	// 	date: "2082-01-21",
@@ -27,51 +33,8 @@ const Progress = () => {
 
 	const { habits } = useContext(HabitContext);
 
-	function convertDataforChart() {
-		const weekDays = getWeekDays();
-		const allHabitsCompletedDates = habits.flatMap(
-			(habit) => habit.completedDates,
-		);
-
-		const counts = {};
-
-		for (const date of allHabitsCompletedDates) {
-			if (counts[date]) {
-				counts[date] += 1;
-			} else {
-				counts[date] = 1;
-			}
-		}
-
-		const weeklyData = weekDays.map((date) => {
-			return {
-				day: getDayFromDate(date),
-				date,
-				count: counts[date] || 0,
-			};
-		});
-
-		setWeeklyData(weeklyData);
-	}
-
-	useEffect(() => {
-		if (habits.length != 0) {
-			convertDataforChart();
-		}
-	}, [habits]);
-
-	const data = [
-		{ date: "2016/01/11", count: 2 },
-		{ date: "2016/04/12", count: 2 },
-		{ date: "2016/05/01", count: 17 },
-		{ date: "2016/05/02", count: 5 },
-		{ date: "2016/05/03", count: 27 },
-		{ date: "2016/05/04", count: 11 },
-		{ date: "2016/05/08", count: 32 },
-	];
-
-	console.log(weeklyData);
-	useEffect(() => {
+	//FUNCTIONS
+	function convertToData() {
 		const allCompletedDates = habits.flatMap((habit) => habit.completedDates);
 
 		const count = {};
@@ -84,14 +47,75 @@ const Progress = () => {
 			}
 		}
 
-		const allCompletedData = Object.keys(count).map((date) => ({
-			date: date,
-			count: count[date],
-			day: getDayFromDate(date),
-		}));
+		const convertedData = Object.keys(count).map((date) => {
+			console.log(date);
+			return {
+				date: date,
+				count: count[date],
+				day: getDayFromDate(date),
+			};
+		});
 
-		setCompleteData(allCompletedData);
+		console.log(convertedData);
+		setData(convertedData);
+	}
+
+	function convertToWeeklyData() {
+		const weekDays = getWeekDays();
+
+		if (data.length === 0) {
+			return;
+		}
+
+		const convertedWeeklyData = [];
+
+		weekDays.forEach((date) => {
+			data.forEach((d) => {
+				if (date == d.date) {
+					convertedWeeklyData.push(d);
+				}
+			});
+		});
+
+		setWeeklyData(convertedWeeklyData);
+	}
+
+	function convertToMonthlyData() {}
+
+	function convertToYearlyData() {}
+
+	function handleSelectChange(e) {
+		setProgressSelectValue(e.target.value);
+	}
+
+	//USE_EFFECTS
+	// useEffect(() => {
+	// 	if (habits.length != 0) {
+	// 		convertDataforChart();
+	// 	}
+	// }, [habits]);
+
+	// const data = [
+	// 	{ date: "2016/01/11", count: 2 },
+	// 	{ date: "2016/04/12", count: 2 },
+	// 	{ date: "2016/05/01", count: 17 },
+	// 	{ date: "2016/05/02", count: 5 },
+	// 	{ date: "2016/05/03", count: 27 },
+	// 	{ date: "2016/05/04", count: 11 },
+	// 	{ date: "2016/05/08", count: 32 },
+	// ];
+
+	useEffect(() => {
+		if (habits != []) {
+			convertToData();
+		}
 	}, [habits]);
+
+	useEffect(() => {
+		if (progressSelectValue === "weekly-progress") {
+			convertToWeeklyData();
+		}
+	}, [data, progressSelectValue]);
 
 	return (
 		<div className="progress-page">
@@ -101,7 +125,7 @@ const Progress = () => {
 			<main>
 				<div className="github-calendar-container">
 					<HeatMap
-						value={completeData}
+						value={data.map((d) => ({ ...d }))}
 						width={"100%"}
 						rectSize={14}
 						startDate={new Date("2026/01/01")}
@@ -132,6 +156,11 @@ const Progress = () => {
 						</LineChart>
 					</ResponsiveContainer>
 				</div>
+				<select className="progress-select" onChange={handleSelectChange}>
+					<option value="weekly-progress">Weekly Progress</option>
+					<option value="monthly-progress">Monthly Progress</option>
+					<option value="yearly-progress">Yearly Progress</option>
+				</select>
 			</main>
 		</div>
 	);

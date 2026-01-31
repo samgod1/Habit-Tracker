@@ -131,8 +131,6 @@ const Card = ({ id, name, type, icon, setHabitToEdit, setIsDialogOpen }) => {
 		};
 	}, [isContextMenuOpen]);
 
-	useEffect(() => {}, [completedDates]);
-
 	useGSAP(() => {
 		if (!contextMenuRef.current) {
 			return;
