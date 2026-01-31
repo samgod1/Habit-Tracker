@@ -11,10 +11,9 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
-import getWeekDays from "../../utils/dateUtils";
+import getTimeRange from "../../utils/dateUtils";
 import ContextMenu from "../ContextMenu/ContextMenu";
 import "./Card.css";
-import { userContext } from "../../contexts/UserContext";
 import { HabitContext } from "../../contexts/HabitContext";
 
 const Card = ({ id, name, type, icon, setHabitToEdit, setIsDialogOpen }) => {
@@ -117,7 +116,7 @@ const Card = ({ id, name, type, icon, setHabitToEdit, setIsDialogOpen }) => {
 	}
 
 	useEffect(() => {
-		setDays(getWeekDays());
+		setDays(getTimeRange("weekly"));
 		getCompletedDates();
 	}, []);
 

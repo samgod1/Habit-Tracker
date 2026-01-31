@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import {
 	Line,
 	LineChart,
@@ -13,14 +13,13 @@ import { HabitContext } from "../../../contexts/HabitContext";
 
 import "./Progress.css";
 import getDayFromDate from "../../../utils/getDayFromDate";
-import getWeekDays from "../../../utils/dateUtils";
+import getTimeRange from "../../../utils/dateUtils";
 
 const Progress = () => {
 	//USE_STATES
 	const [data, setData] = useState([]);
-	const [weeklyData, setWeeklyData] = useState([]);
-	const [monthlyData, setMonthlyData] = useState([]);
-	const [yearlyData, setYearlyData] = useState([]);
+	const [dateRange, setTimeRange] = useState("weekly");
+	const [filteredData, setFilteredData] = useState([]);
 
 	const { habits } = useContext(HabitContext);
 
@@ -49,43 +48,32 @@ const Progress = () => {
 		setData(convertedData);
 	}
 
-	function convertToWeeklyData() {
-		const weekDays = getWeekDays();
-
-		if (data.length === 0) {
-			return;
-		}
-
-		const convertedWeeklyData = [];
-
-		weekDays.map((date) => {
-			data.map((d) => {
-				if (date == d.date) {
-					convertedWeeklyData.push(d);
-				}
-			});
-		});
-
-		setWeeklyData(convertedWeeklyData);
-	}
-
-	function convertToMonthlyData() {}
-
-	function convertToYearlyData() {}
-
 	function handleSelectChange(e) {
 		const value = e.target.value;
 
 		if (value == "weekly-progress") {
-			convertToWeeklyData();
+			setTimeRange("weekly");
 		} else if (value == "monthly-progress") {
-			console.log("hello world");
-
-			convertToMonthlyData();
-		} else if (value == "yearly-progress") {
-			convertToMonthlyData();
+			setTimeRange("monthly");
 		}
 	}
+
+	//USE_MEMOS
+	useMemo(() => {
+		const timeRange = getTimeRange(dateRange);
+
+		const completeData = timeRange.map((date) => {
+			const existingData = data.find((item) => date == item.date);
+
+			return {
+				date: date,
+				count: existingData ? existingData.count : 0,
+				day: getDayFromDate(date),
+			};
+		});
+
+		setFilteredData(completeData);
+	}, [data, dateRange]);
 
 	//USE_EFFECTS
 	useEffect(() => {
@@ -93,13 +81,6 @@ const Progress = () => {
 			convertToData();
 		}
 	}, [habits]);
-
-	useEffect(() => {
-		if (data.length == 0) {
-			return;
-		}
-		convertToWeeklyData();
-	}, [data]);
 
 	return (
 		<div className="progress-page">
@@ -129,9 +110,8 @@ const Progress = () => {
 				</div>
 				<div className="chart-wrapper">
 					<ResponsiveContainer>
-						<LineChart data={weeklyData}>
+						<LineChart data={filteredData}>
 							<Line dataKey={"count"} />
-							<XAxis dataKey={"day"} />
 							<YAxis
 								domain={[0, habits.length]}
 								ticks={Array.from({ length: habits.length + 1 }, (_, i) => i)}
@@ -143,7 +123,6 @@ const Progress = () => {
 				<select className="progress-select" onChange={handleSelectChange}>
 					<option value="weekly-progress">Weekly Progress</option>
 					<option value="monthly-progress">Monthly Progress</option>
-					<option value="yearly-progress">Yearly Progress</option>
 				</select>
 			</main>
 		</div>
