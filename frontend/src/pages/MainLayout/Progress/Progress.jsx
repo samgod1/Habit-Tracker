@@ -58,6 +58,22 @@ const Progress = () => {
 		}
 	}
 
+	function formatTicks(value) {
+		let ticks = [];
+
+		if (value < 3) {
+			for (let i = 0; i <= 3; i++) {
+				ticks.push(i);
+			}
+		} else {
+			for (let i = 0; i <= value; i++) {
+				ticks.push(i);
+			}
+		}
+
+		return ticks;
+	}
+
 	//USE_MEMOS
 	useMemo(() => {
 		const timeRange = getTimeRange(dateRange);
@@ -111,10 +127,16 @@ const Progress = () => {
 				<div className="chart-wrapper">
 					<ResponsiveContainer>
 						<LineChart data={filteredData}>
-							<Line dataKey={"count"} />
+							<Line dataKey={"count"} stroke="green" strokeWidth={2} />
 							<YAxis
-								domain={[0, habits.length]}
-								ticks={Array.from({ length: habits.length + 1 }, (_, i) => i)}
+								domain={[0, (dataMax) => Math.max(dataMax, 3)]}
+								ticks={Array.from(
+									{
+										length:
+											Math.max(...filteredData.map((d) => d.count), 3) + 1,
+									},
+									(_, i) => i,
+								)}
 							/>
 							<CartesianGrid stroke="#ccc" />
 						</LineChart>
