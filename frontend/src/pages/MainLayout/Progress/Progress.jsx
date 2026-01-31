@@ -18,13 +18,9 @@ import getWeekDays from "../../../utils/dateUtils";
 const Progress = () => {
 	//USE_STATES
 	const [data, setData] = useState([]);
-	//Using a seperate state for heatMapData cuz HeatMap changes the date from "2026-01-01" to "2026/01/01"
-	const [heatMapData, setHeatMapData] = useState([]);
 	const [weeklyData, setWeeklyData] = useState([]);
 	const [monthlyData, setMonthlyData] = useState([]);
 	const [yearlyData, setYearlyData] = useState([]);
-
-	const selectRef = useRef(null);
 
 	const { habits } = useContext(HabitContext);
 
@@ -51,7 +47,6 @@ const Progress = () => {
 		});
 
 		setData(convertedData);
-		setHeatMapData(convertedData);
 	}
 
 	function convertToWeeklyData() {
@@ -63,8 +58,8 @@ const Progress = () => {
 
 		const convertedWeeklyData = [];
 
-		weekDays.forEach((date) => {
-			data.forEach((d) => {
+		weekDays.map((date) => {
+			data.map((d) => {
 				if (date == d.date) {
 					convertedWeeklyData.push(d);
 				}
@@ -78,6 +73,20 @@ const Progress = () => {
 
 	function convertToYearlyData() {}
 
+	function handleSelectChange(e) {
+		const value = e.target.value;
+
+		if (value == "weekly-progress") {
+			convertToWeeklyData();
+		} else if (value == "monthly-progress") {
+			console.log("hello world");
+
+			convertToMonthlyData();
+		} else if (value == "yearly-progress") {
+			convertToMonthlyData();
+		}
+	}
+
 	//USE_EFFECTS
 	useEffect(() => {
 		if (habits.length != 0) {
@@ -89,9 +98,8 @@ const Progress = () => {
 		if (data.length == 0) {
 			return;
 		}
-		if (selectRef.current?.value == "weelky-progress") {
-		}
-	}, [data, selectRef]);
+		convertToWeeklyData();
+	}, [data]);
 
 	return (
 		<div className="progress-page">
@@ -101,7 +109,7 @@ const Progress = () => {
 			<main>
 				<div className="github-calendar-container">
 					<HeatMap
-						value={heatMapData}
+						value={data.map((d) => ({ ...d }))}
 						width={"100%"}
 						rectSize={14}
 						startDate={new Date("2026/01/01")}
@@ -132,7 +140,7 @@ const Progress = () => {
 						</LineChart>
 					</ResponsiveContainer>
 				</div>
-				<select className="progress-select">
+				<select className="progress-select" onChange={handleSelectChange}>
 					<option value="weekly-progress">Weekly Progress</option>
 					<option value="monthly-progress">Monthly Progress</option>
 					<option value="yearly-progress">Yearly Progress</option>
