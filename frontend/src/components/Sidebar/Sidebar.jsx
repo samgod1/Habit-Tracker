@@ -1,4 +1,4 @@
-import { useState, useRef, useContext } from "react";
+import { useState, useRef, useContext, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { IoIosHome, IoMdTrendingUp, IoIosArrowUp } from "react-icons/io";
 import gsap from "gsap";
@@ -20,6 +20,7 @@ const Sidebar = () => {
 
 	const borderRef = useRef(null);
 	const containerRef = useRef(null);
+	const logoutButtonRef = useRef(null);
 
 	const { user, loading, logout } = useContext(userContext);
 
@@ -30,6 +31,23 @@ const Sidebar = () => {
 		navigate("/");
 	}
 
+	useEffect(() => {
+		const handleMouseDown = (e) => {
+			if (logoutButtonRef && !logoutButtonRef.current.contains(e.target)) {
+				setIsOpen(false);
+				setCanClickLogout(false);
+			}
+		};
+		if (canClickLogout) {
+			document.addEventListener("mousedown", handleMouseDown);
+		}
+
+		return () => {
+			document.removeEventListener("mousedown", handleMouseDown);
+		};
+	}, [canClickLogout]);
+
+	//USE_GSAP
 	useGSAP(() => {
 		if (!loading) {
 			const selectedLink = pathMap[location.pathname];
@@ -121,6 +139,7 @@ const Sidebar = () => {
 					onClick={handleLogout}
 					className="logout-button"
 					disabled={!canClickLogout}
+					ref={logoutButtonRef}
 				>
 					Logout
 				</button>
