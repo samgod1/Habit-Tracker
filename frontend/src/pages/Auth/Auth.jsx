@@ -97,7 +97,9 @@ const Auth = () => {
 						</button>
 						<div id="slider"></div>
 					</div>
+
 					<div className="form-wrapper">
+						{/* Signup form */}
 						<form id="signup-form" ref={signupFormRef}>
 							<h1>Welcome</h1>
 							<p>“Build the life you want, one habit at a time.”</p>
@@ -111,6 +113,8 @@ const Auth = () => {
 							/>
 							<button onClick={handleSignup}>Signup</button>
 						</form>
+
+						{/* Login form */}
 						<form id="login-form" ref={loginFormRef}>
 							<h1>Welcome back</h1>
 							<p>“Build the life you want, one habit at a time.”</p>
@@ -122,7 +126,12 @@ const Auth = () => {
 				</div>
 			</section>
 			<section className="right-side">
-				<img src="/images/girl-crossing-dates.png" alt="girl-crossing-dates" />
+				<div className="img">
+					<img
+						src="/images/girl-crossing-dates.png"
+						alt="girl-crossing-dates"
+					/>
+				</div>
 			</section>
 		</main>
 	);

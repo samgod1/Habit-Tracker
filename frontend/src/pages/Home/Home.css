@@ -8,6 +8,7 @@
 		align-items: center;
 		min-height: 100dvh;
 		text-align: center;
+		padding: 0rem 2rem;
 
 		.wrapper {
 			display: flex;
@@ -15,13 +16,23 @@
 			align-items: center;
 			gap: 1rem;
 
-			h1 {
-				font-size: 5rem;
+			.hero-h1 {
+				font-size: 1.75rem;
+				font-size: clamp(1.75rem, 0.2564rem + 6.8376vw, 6rem);
+				white-space: nowrap;
 				font-family:
 					"Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
 			}
 
-			p {
+			.hero-p {
+				font-size: 0.75rem;
+				font-size: clamp(
+					0.75rem,
+					-0.14102564102564108rem + 2.735042735042735vw,
+					1.75rem
+				);
+				white-space: nowrap;
+				color: var(--color-secondary-text);
 				font-family:
 					"Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
 			}
@@ -44,6 +55,7 @@
 		display: flex;
 		flex-direction: column;
 		gap: 5rem;
+		padding: 0rem 3rem;
 		overflow: hidden;
 
 		.row:nth-child(1),
@@ -62,26 +74,22 @@
 					display: flex;
 					flex-direction: center;
 					gap: 1rem;
-
-					h1,
-					p {
-						color: rgb(54, 45, 45);
-					}
-
-					p {
-						font-family:
-							"Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
-					}
 				}
 			}
 		}
+
+		.row:nth-child(4) {
+			.card {
+				margin-bottom: 5rem;
+			}
+		}
+
 		.row {
 			position: relative;
 			z-index: 1;
 			display: flex;
 			justify-content: center;
 			gap: 2rem;
-			padding: 0 5rem;
 
 			.img {
 				width: 50%;
@@ -105,7 +113,7 @@
 					align-items: center;
 					gap: 1rem;
 					background-color: var(--color-home-card);
-					padding: 2.5rem 1.5rem;
+					padding: 2.5rem 2rem;
 					border-radius: 1rem;
 
 					h1,
@@ -113,7 +121,22 @@
 						color: rgb(54, 45, 45);
 					}
 
+					h1 {
+						font-size: 1rem;
+						font-size: clamp(
+							1rem,
+							0.33333333333333326rem + 2.8444444444444446vw,
+							3rem
+						);
+					}
+
 					p {
+						font-size: 0.75rem;
+						font-size: clamp(
+							0.75rem,
+							0.41666666666666663rem + 1.4222222222222223vw,
+							1.25rem
+						);
 						font-family:
 							"Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
 					}
@@ -121,25 +144,52 @@
 			}
 		}
 
-		.row:nth-child(4) {
-			.card {
-				margin-bottom: 5rem;
-			}
-		}
-
 		#svg-path {
 			position: absolute;
 			width: 100%;
-			height: 98%;
+			height: 100%;
 			top: 0;
 			left: 50%;
 			transform: translateX(-50%);
 			z-index: 0;
-			padding: 18rem 0;
 
 			svg {
 				width: 100%;
 				height: 100%;
+			}
+		}
+	}
+}
+
+@media (width <= 730px) {
+	.home {
+		.spotlight-section {
+			.row {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+
+				.img {
+					width: 100%;
+				}
+
+				.col {
+					width: 100%;
+				}
+			}
+			.row:nth-child(3) {
+				display: flex;
+				flex-direction: column-reverse;
+				align-items: center;
+
+				.img {
+					width: 75%;
+				}
+			}
+
+			#svg-path {
+				top: 15svh;
+				width: 275%;
 			}
 		}
 	}
