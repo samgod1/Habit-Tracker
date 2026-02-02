@@ -1,0 +1,40 @@
+/* Container for the 7 buttons */
+.habit-buttons-row {
+	display: flex;
+	gap: 12px; /* Adjust this to match your header spacing */
+	align-items: center;
+}
+
+/* Base Button Styles */
+.habit-circle-btn {
+	width: 24px;
+	height: 24px;
+	border-radius: 50%;
+	border: 2px solid #374151; /* Dark gray border */
+	background: transparent;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: all 0.2s ease-out;
+}
+
+/* Hover Effect */
+.habit-circle-btn:hover {
+	border-color: #6b7280;
+}
+
+/* Completed State */
+.habit-circle-btn.completed {
+	background-color: #22c55e; /* Green */
+	border-color: #22c55e;
+	box-shadow: 0 0 10px rgba(34, 197, 94, 0.5); /* Glow */
+	transform: scale(1.1);
+}
+
+/* Checkmark Icon */
+.check-icon {
+	width: 12px;
+	height: 12px;
+	color: white;
+}

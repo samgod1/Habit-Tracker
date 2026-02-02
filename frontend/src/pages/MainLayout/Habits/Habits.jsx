@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, useContext } from "react";
 import { FaPlus } from "react-icons/fa";
+import { Plus } from "lucide-react";
 import toast from "react-hot-toast";
 import axios from "axios";
 
@@ -92,8 +93,8 @@ const Habits = () => {
 						setIsDialogOpen(!isDialogOpen);
 					}}
 				>
-					<FaPlus />
-					New
+					<Plus width={20} height={20} />
+					<span>New</span>
 				</button>
 			</header>
 			<main>
@@ -104,8 +105,8 @@ const Habits = () => {
 						<>
 							{habits.some((habit) => habit.type == "good") && (
 								<>
+									<div className="type">Good Habits</div>
 									<div className="habits-section-header">
-										<div className="type">Good Habits😇</div>
 										<div className="days-container">
 											{[
 												"Mon",
@@ -150,8 +151,8 @@ const Habits = () => {
 							)}
 							{habits.some((habit) => habit.type == "bad") && (
 								<>
+									<div className="type">Bad Habits</div>
 									<div className="habits-section-header">
-										<div className="type">Bad Habits😈</div>
 										<div className="days-container">
 											{[
 												"Mon",

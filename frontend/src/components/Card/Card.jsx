@@ -7,6 +7,7 @@ import {
 	PolarAngleAxis,
 	ResponsiveContainer,
 } from "recharts";
+import { Flame } from "lucide-react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -15,6 +16,7 @@ import getTimeRange from "../../utils/dateUtils";
 import ContextMenu from "../ContextMenu/ContextMenu";
 import "./Card.css";
 import { HabitContext } from "../../contexts/HabitContext";
+import HabitDayBtn from "../../pages/MainLayout/Habits/HabitDayBtn";
 
 const Card = ({ id, name, type, icon, setHabitToEdit, setIsDialogOpen }) => {
 	const [days, setDays] = useState(null);
@@ -58,9 +60,7 @@ const Card = ({ id, name, type, icon, setHabitToEdit, setIsDialogOpen }) => {
 		}
 	}
 
-	async function handleChange(e, day) {
-		const checked = e.target.checked;
-
+	async function handleChange(checked, day) {
 		let newCompletedDates = [];
 
 		if (checked) {
@@ -168,27 +168,20 @@ const Card = ({ id, name, type, icon, setHabitToEdit, setIsDialogOpen }) => {
 	return (
 		<div className="card">
 			<div className="wrapper">
-				<div className="streak-wrapper">
+				<div
+					className="streak-wrapper"
+					style={{
+						color: streak > 0 ? "#e92a2a" : "grey",
+						fontSize: "1.25rem",
+					}}
+				>
 					<span className="streak">{streak}</span>
-					{streak > 0 ? (
-						<span className="img">
-							<img
-								src="/images/fire.svg"
-								alt="fire-icon"
-								height={24}
-								width={24}
-							/>
-						</span>
-					) : (
-						<span className="img">
-							<img
-								src="/images/fire-not-lit.svg"
-								alt="fire-icon"
-								height={24}
-								width={24}
-							/>
-						</span>
-					)}
+					<Flame
+						width={18}
+						height={18}
+						color={streak > 0 ? "red" : "grey"}
+						fill={streak > 0 ? "red" : "none"}
+					/>
 				</div>
 				<div className="icon-and-name">
 					<div className="icon">{icon}</div>
@@ -198,12 +191,11 @@ const Card = ({ id, name, type, icon, setHabitToEdit, setIsDialogOpen }) => {
 			{days && (
 				<div className="checkboxes-container">
 					{days.map((day) => (
-						<input
-							type="checkbox"
-							className={type}
+						<HabitDayBtn
 							key={day}
-							onChange={(e) => handleChange(e, day)}
 							checked={completedDates?.includes(day) || false}
+							handleChange={handleChange}
+							day={day}
 						/>
 					))}
 					<div className="card-actions">

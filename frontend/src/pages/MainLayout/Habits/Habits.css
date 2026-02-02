@@ -7,7 +7,7 @@
 	position: relative;
 
 	header {
-		font-size: 2rem;
+		font-size: 1.625rem;
 		padding: 0rem 1.5rem;
 		color: var(--color-primary-text);
 		display: flex;
@@ -22,8 +22,9 @@
 			border: none;
 			color: var(--color-primary-text);
 			display: flex;
+			align-items: center;
 			gap: 0.25rem;
-			padding: 0.5rem 0.75rem;
+			padding: 0.5rem 1.25rem;
 			border-radius: 0.25rem;
 			font-size: 1rem;
 			cursor: pointer;
@@ -47,7 +48,7 @@
 			.habits-section-header {
 				display: flex;
 				align-items: center;
-				justify-content: space-between;
+				justify-content: right;
 			}
 
 			.type {
