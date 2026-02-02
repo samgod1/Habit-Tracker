@@ -21,7 +21,7 @@ export const UserProvider = ({ children }) => {
 			setLoading(false);
 			toast.success("Signup successful");
 		} catch (e) {
-			toast.error(e?.response?.data?.message);
+			toast.error(e?.response?.data?.message || e.message);
 			throw new Error(e);
 		}
 	}
@@ -39,7 +39,7 @@ export const UserProvider = ({ children }) => {
 			toast.success("Login Successful");
 		} catch (e) {
 			console.log(e);
-			toast.error(e?.response?.data?.message);
+			toast.error(e?.response?.data?.message || e.message);
 			throw new Error(e);
 		}
 	}

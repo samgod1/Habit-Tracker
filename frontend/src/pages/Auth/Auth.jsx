@@ -39,7 +39,7 @@ const Auth = () => {
 			const data = Object.fromEntries(formData.entries());
 			await signup(data);
 		} catch (e) {
-			console.log(e);
+			console.error(e.message);
 		}
 	}
 
@@ -52,7 +52,7 @@ const Auth = () => {
 			navigate("/habits");
 			toast.success("Login successful");
 		} catch (e) {
-			toast.error(e?.response?.data?.message || e.message);
+			console.error(e.message);
 		}
 	}
 
