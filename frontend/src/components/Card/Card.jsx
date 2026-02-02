@@ -100,8 +100,9 @@ const Card = ({ id, name, type, icon, setHabitToEdit, setIsDialogOpen }) => {
 				prev.map((habit) => {
 					if (habit._id == id) {
 						return { ...habit, completedDates: updatedCompletedDates };
+					} else {
+						return { ...habit };
 					}
-					return { habit };
 				}),
 			);
 		} catch (e) {
