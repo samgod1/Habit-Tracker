@@ -148,14 +148,6 @@ const Dialog = ({ setIsDialogOpen, habitToEdit, setHabitToEdit }) => {
 						<option value="bad">Bad</option>
 					</select>
 				</div>
-				<div className="input-group">
-					<label htmlFor="notify">Notify:</label>
-					<input type="text" id="notify" placeholder="e.g. 10" />
-					<select>
-						<option value="am">Am</option>
-						<option value="pm">Pm</option>
-					</select>
-				</div>
 				<button className="create-button" onClick={createOrUpdateHabit}>
 					{habitToEdit ? "Edit" : "Create"}
 				</button>

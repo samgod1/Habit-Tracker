@@ -1,16 +1,26 @@
 import { useNavigate } from "react-router-dom";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { ScrollTrigger } from "gsap/all";
 
 import "./Home.css";
 import { PageTransitionContext } from "../../components/PageTransition/PageTransition";
+import { userContext } from "../../contexts/UserContext";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const Home = () => {
+	const navigate = useNavigate();
+
 	const { handlePageChange } = useContext(PageTransitionContext);
+	const { user } = useContext(userContext);
+
+	useEffect(() => {
+		if (user) {
+			navigate("/habits");
+		}
+	}, [user]);
 
 	useGSAP(() => {
 		const tl = gsap.timeline();

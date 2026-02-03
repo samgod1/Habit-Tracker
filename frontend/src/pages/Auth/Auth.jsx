@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import toast from "react-hot-toast";
@@ -14,10 +14,11 @@ const Auth = () => {
 	const signupFormRef = useRef(null);
 	const loginFormRef = useRef(null);
 
-	const { signup, login } = useContext(userContext);
+	const { user, signup, login } = useContext(userContext);
 
 	const navigate = useNavigate();
 
+	//FUNCTIONS
 	function handleClick(e) {
 		if (e.target.id == "login-button") {
 			if (authState == "login") {
@@ -56,6 +57,14 @@ const Auth = () => {
 		}
 	}
 
+	//USE_EFFECT
+	useEffect(() => {
+		if (user) {
+			navigate("/habits");
+		}
+	}, [user]);
+
+	//USE_GSAP
 	useGSAP(() => {
 		//When state is login animate
 		if (authState == "login") {
