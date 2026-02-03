@@ -100,10 +100,7 @@ const Home = () => {
 			<section className="spotlight-section">
 				<div className="row">
 					<div className="img">
-						<img
-							src="/images/appointment-booking-with-calendar.png"
-							alt="calendar-marked"
-						/>
+						<img src="/images/create-habit.svg" alt="calendar-marked" />
 					</div>
 					<div className="col">
 						<div className="card">
