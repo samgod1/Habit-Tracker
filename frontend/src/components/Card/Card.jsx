@@ -197,6 +197,7 @@ const Card = ({ id, name, type, icon, setHabitToEdit, setIsDialogOpen }) => {
 							checked={completedDates?.includes(day) || false}
 							handleChange={handleChange}
 							day={day}
+							type={type}
 						/>
 					))}
 					<div className="card-actions">

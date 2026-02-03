@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./HabitDayBtn.css";
 
-const HabitDayBtn = ({ checked, handleChange, day }) => {
+const HabitDayBtn = ({ checked, handleChange, day, type }) => {
 	const [isChecked, setIsChecked] = useState(false);
 
 	useEffect(() => {
@@ -16,7 +16,7 @@ const HabitDayBtn = ({ checked, handleChange, day }) => {
 				handleChange(!isChecked, day);
 				setIsChecked(!isChecked);
 			}}
-			className={`habit-circle-btn ${isChecked ? "completed" : ""}`}
+			className={`habit-circle-btn ${isChecked ? `completed-${type}` : ""}`}
 		>
 			{isChecked && (
 				<svg
