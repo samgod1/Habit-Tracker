@@ -9,20 +9,39 @@ aside {
 	top: 0;
 	width: 25vw;
 	max-width: 300px;
+	min-width: 225px;
 	height: 100vh;
 	display: flex;
 	flex-direction: column;
-	padding: 0rem 1.5rem;
+	padding: 0rem
+		clamp(0.75rem, 0.49999999999999994rem + 1.0666666666666669vw, 1.5rem);
 	background-color: var(--color-bg);
 	border-right: 2px solid var(--color-sidebar-border);
 	color: var(--color-primary-text);
+	z-index: 12;
 
-	.website-name {
+	.header {
 		display: flex;
+		justify-content: space-between;
 		align-items: center;
 		padding: 0rem 1.5rem;
-		min-height: 5rem;
-		font-size: 2rem;
+		min-height: 6.5rem;
+		font-size: 1rem;
+		font-size: clamp(
+			1.5rem,
+			0.4999999999999999rem + 2.1333333333333337vw,
+			2.5rem
+		);
+
+		.close-button {
+			all: unset;
+			display: none;
+			cursor: pointer;
+		}
+
+		.website-name {
+			font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+		}
 	}
 
 	.links-container {
@@ -51,7 +70,12 @@ aside {
 			display: flex;
 			align-items: center;
 			gap: 0.75rem;
-			font-size: 1.25rem;
+			font-size: 1rem;
+			font-size: clamp(
+				1rem,
+				0.9166666666666666rem + 0.35555555555555557vw,
+				1.25rem
+			);
 			z-index: 10;
 		}
 	}
@@ -60,9 +84,21 @@ aside {
 		position: relative;
 		display: flex;
 		justify-content: space-between;
+		gap: 0.5rem;
 		align-items: center;
 		height: 4rem;
 		cursor: pointer;
+
+		.email {
+			white-space: nowrap;
+			overflow: hidden;
+			font-size: 0.75rem;
+			font-size: clamp(
+				0.75rem,
+				0.22959183673469397rem + 1.0884353741496597vw,
+				1.25rem
+			);
+		}
 
 		.logout-button {
 			position: absolute;

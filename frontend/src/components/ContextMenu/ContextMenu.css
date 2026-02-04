@@ -31,3 +31,10 @@
 		}
 	}
 }
+
+@media (width <= 765px) {
+	.context-menu {
+		left: 0;
+		transform: translateX(-100%);
+	}
+}

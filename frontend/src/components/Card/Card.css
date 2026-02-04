@@ -18,17 +18,34 @@
 			.streak {
 				display: inline-block;
 				text-align: center;
+				font-size: 0.75rem;
+				font-size: clamp(
+					0.75rem,
+					0.22959183673469397rem + 1.0884353741496597vw,
+					1.25rem
+				);
 			}
 		}
 
 		.icon-and-name {
 			display: flex;
 			align-items: center;
+			font-size: 0.75rem;
+			font-size: clamp(
+				0.75rem,
+				0.22959183673469397rem + 1.0884353741496597vw,
+				1.25rem
+			);
 			gap: 0.25rem;
 
 			.habit-name {
 				color: var(--color-primary-text);
-				font-size: 1.25rem;
+				font-size: 0.75rem;
+				font-size: clamp(
+					0.75rem,
+					0.22959183673469397rem + 1.0884353741496597vw,
+					1.25rem
+				);
 				padding: 0.5rem 0rem;
 			}
 		}
@@ -36,6 +53,7 @@
 
 	.checkboxes-container {
 		display: flex;
+		align-items: center;
 		gap: 1rem;
 
 		input {
@@ -58,6 +76,11 @@
 			justify-content: space-between;
 			align-items: center;
 
+			.chart-container {
+				width: 24px;
+				height: 24px;
+			}
+
 			.three-dots {
 				all: unset;
 				color: var(--color-primary-text);
@@ -66,6 +89,40 @@
 				justify-content: center;
 				align-items: center;
 				position: relative;
+			}
+		}
+	}
+}
+
+@media (width <= 765px) {
+	.card {
+		.wrapper {
+			gap: 2px;
+
+			.streak-wrapper {
+				gap: 0;
+
+				svg {
+					width: 10px;
+					height: 10px;
+				}
+			}
+
+			.icon-and-name {
+				gap: 2px;
+			}
+		}
+
+		.checkboxes-container {
+			gap: 0.75rem;
+
+			.card-actions {
+				width: 30px;
+
+				.chart-container {
+					width: 15px;
+					height: 15px;
+				}
 			}
 		}
 	}

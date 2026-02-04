@@ -7,3 +7,43 @@
 		flex-grow: 1;
 	}
 }
+
+@media (width <= 765px) {
+	.layout {
+		overflow: hidden;
+		.overlay {
+			position: absolute;
+			inset: 0;
+			z-index: 11;
+			display: none;
+			backdrop-filter: blur(5px);
+		}
+		.open {
+			transform: translateX(0%);
+		}
+		aside {
+			position: absolute;
+			right: 0;
+			transform: translateX(100%);
+			width: 80vw;
+			min-width: none;
+			max-width: none;
+			border-left: 2px solid var(--color-sidebar-border);
+			border-right: none;
+			transition: all 0.2s ease;
+			padding: 0 1.5rem;
+			z-index: 12;
+
+			.header {
+				.close-button {
+					display: flex;
+				}
+			}
+			.user-section {
+				.email {
+					font-size: 1rem;
+				}
+			}
+		}
+	}
+}

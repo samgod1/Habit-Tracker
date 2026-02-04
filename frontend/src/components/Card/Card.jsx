@@ -201,23 +201,25 @@ const Card = ({ id, name, type, icon, setHabitToEdit, setIsDialogOpen }) => {
 						/>
 					))}
 					<div className="card-actions">
-						<RadialBarChart
-							width={24}
-							height={24}
-							data={data}
-							innerRadius="40%"
-							outerRadius="100%"
-							startAngle={90}
-							endAngle={-270}
-							margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
-						>
-							<PolarAngleAxis type="number" domain={[0, 7]} tick={false} />
-							<RadialBar
-								dataKey={"value"}
-								background={{ fill: "#e5e7eb" }}
-								fill={type == "good" ? "#238636" : "#b91c1c"}
-							/>
-						</RadialBarChart>
+						<div className="chart-container">
+							<ResponsiveContainer>
+								<RadialBarChart
+									data={data}
+									innerRadius="40%"
+									outerRadius="100%"
+									startAngle={90}
+									endAngle={-270}
+									margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
+								>
+									<PolarAngleAxis type="number" domain={[0, 7]} tick={false} />
+									<RadialBar
+										dataKey={"value"}
+										background={{ fill: "#e5e7eb" }}
+										fill={type == "good" ? "#238636" : "#b91c1c"}
+									/>
+								</RadialBarChart>
+							</ResponsiveContainer>
+						</div>
 						<div
 							className="three-dots"
 							onClick={(e) => {

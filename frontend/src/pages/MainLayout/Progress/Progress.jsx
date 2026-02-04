@@ -9,11 +9,13 @@ import {
 } from "recharts";
 import Tooltip from "@uiw/react-tooltip";
 import HeatMap from "@uiw/react-heat-map";
+import { GiHamburgerMenu } from "react-icons/gi";
 import { HabitContext } from "../../../contexts/HabitContext";
 
 import "./Progress.css";
 import getDayFromDate from "../../../utils/getDayFromDate";
 import getTimeRange from "../../../utils/dateUtils";
+import { SidebarContext } from "../Layout";
 
 const Progress = () => {
 	//USE_STATES
@@ -22,6 +24,7 @@ const Progress = () => {
 	const [filteredData, setFilteredData] = useState([]);
 
 	const { habits } = useContext(HabitContext);
+	const { openSidebar } = useContext(SidebarContext) || {};
 
 	//FUNCTIONS
 	function convertToData() {
@@ -102,6 +105,9 @@ const Progress = () => {
 		<div className="progress-page">
 			<header>
 				<span>My Progress</span>
+				<button className="hamburger-menu">
+					<GiHamburgerMenu size={20} onClick={openSidebar} />
+				</button>
 			</header>
 			<main>
 				<div className="github-calendar-container">

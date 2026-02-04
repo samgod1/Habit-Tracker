@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useContext } from "react";
-import { FaPlus } from "react-icons/fa";
+import { GiHamburgerMenu } from "react-icons/gi";
 import { Plus } from "lucide-react";
 import toast from "react-hot-toast";
 import axios from "axios";
@@ -7,6 +7,7 @@ import axios from "axios";
 import { Card, Dialog, NoHabit } from "../../../components/index.js";
 import "./Habits.css";
 import { HabitContext } from "../../../contexts/HabitContext.jsx";
+import { SidebarContext } from "../Layout.jsx";
 
 const Habits = () => {
 	const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -20,6 +21,7 @@ const Habits = () => {
 	const debounceRef = useRef(null);
 
 	const { habits, loading } = useContext(HabitContext);
+	const { openSidebar } = useContext(SidebarContext) || {};
 
 	function handlePriorityChange(e) {
 		const value = e.target.value;
@@ -87,15 +89,20 @@ const Habits = () => {
 		<div className="habits-page">
 			<header>
 				<span>My habits</span>
-				<button
-					className="create-habit"
-					onClick={() => {
-						setIsDialogOpen(!isDialogOpen);
-					}}
-				>
-					<Plus width={20} height={20} />
-					<span>New</span>
-				</button>
+				<div className="buttons-wrapper">
+					<button
+						className="create-habit"
+						onClick={() => {
+							setIsDialogOpen(!isDialogOpen);
+						}}
+					>
+						<Plus width={20} height={20} />
+						<span>New</span>
+					</button>
+					<button className="hamburger-menu">
+						<GiHamburgerMenu size={20} onClick={openSidebar} />
+					</button>
+				</div>
 			</header>
 			<main>
 				<section className="habits">
@@ -105,8 +112,8 @@ const Habits = () => {
 						<>
 							{habits.some((habit) => habit.type == "good") && (
 								<>
-									<div className="type">Good Habits</div>
 									<div className="habits-section-header">
+										<div className="type">Good Habits</div>
 										<div className="days-container">
 											{[
 												"Mon",
@@ -151,8 +158,8 @@ const Habits = () => {
 							)}
 							{habits.some((habit) => habit.type == "bad") && (
 								<>
-									<div className="type">Bad Habits</div>
 									<div className="habits-section-header">
+										<div className="type">Bad Habits</div>
 										<div className="days-container">
 											{[
 												"Mon",

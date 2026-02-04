@@ -5,6 +5,9 @@
 	flex-direction: column;
 
 	header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
 		min-height: 5.5rem;
 		font-size: 2rem;
 		padding: 0rem 1.5rem;
@@ -12,6 +15,12 @@
 		display: flex;
 		align-items: center;
 		background-color: var(--color-header);
+
+		.hamburger-menu {
+			all: unset;
+			display: none;
+			cursor: pointer;
+		}
 	}
 
 	main {
@@ -39,6 +48,16 @@
 
 			option {
 				background-color: var(--color-bg);
+			}
+		}
+	}
+}
+
+@media (width <= 765px) {
+	.progress-page {
+		header {
+			.hamburger-menu {
+				display: flex;
 			}
 		}
 	}

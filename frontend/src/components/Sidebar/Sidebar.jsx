@@ -1,11 +1,17 @@
 import { useState, useRef, useContext, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { IoIosHome, IoMdTrendingUp, IoIosArrowUp } from "react-icons/io";
+import {
+	IoIosHome,
+	IoMdTrendingUp,
+	IoIosArrowUp,
+	IoMdClose,
+} from "react-icons/io";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
 import "./Sidebar.css";
 import { userContext } from "../../contexts/UserContext";
+import { SidebarContext } from "../../pages/MainLayout/Layout.jsx";
 
 const pathMap = {
 	"/habits": "home",
@@ -23,6 +29,7 @@ const Sidebar = () => {
 	const logoutButtonRef = useRef(null);
 
 	const { user, loading, logout } = useContext(userContext);
+	const { closeSidebar, isSidebarOpen } = useContext(SidebarContext) || {};
 
 	const navigate = useNavigate();
 
@@ -49,20 +56,23 @@ const Sidebar = () => {
 
 	//USE_GSAP
 	useGSAP(() => {
-		if (!loading) {
+		if (!loading && (isSidebarOpen || window.innerWidth > 765)) {
 			const selectedLink = pathMap[location.pathname];
 
-			//This is for setting the border according to the links height
 			const activeLink = containerRef.current.querySelector(
 				`[data-link = ${selectedLink}]`,
 			);
-			if (activeLink && borderRef.current) {
-				borderRef.current.style.transition = "none";
-				borderRef.current.style.transform = `translateY(${activeLink.offsetTop}px)`;
-				borderRef.current.style.height = `${activeLink.offsetHeight}px`;
-			}
+
+			requestAnimationFrame(() => {
+				if (activeLink && borderRef.current) {
+					borderRef.current.style.transition = "none";
+
+					borderRef.current.style.transform = `translateY(${activeLink.offsetTop}px)`;
+					borderRef.current.style.height = `${activeLink.offsetHeight}px`;
+				}
+			});
 		}
-	}, [loading]);
+	}, [loading, isSidebarOpen]);
 
 	useGSAP(() => {
 		if (!loading) {
@@ -113,7 +123,12 @@ const Sidebar = () => {
 
 	return (
 		<aside>
-			<span className="website-name">Habit Tracker</span>
+			<div className="header">
+				<div className="website-name">Anchored</div>
+				<button className="close-button" onClick={closeSidebar}>
+					<IoMdClose size={30} />
+				</button>
+			</div>
 			<div className="links-container" ref={containerRef}>
 				{/* Div that will move up and down according to the selected link */}
 				<div className="border" ref={borderRef}></div>
