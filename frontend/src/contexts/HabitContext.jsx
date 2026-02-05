@@ -23,7 +23,6 @@ export function HabitProvider({ children }) {
 				},
 			);
 			setHabits(response.data);
-			console.log(response.data);
 		} catch (e) {
 			toast.error(e?.response?.data?.message || e.message);
 		} finally {

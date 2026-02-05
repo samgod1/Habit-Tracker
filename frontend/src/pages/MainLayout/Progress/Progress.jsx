@@ -61,22 +61,6 @@ const Progress = () => {
 		}
 	}
 
-	function formatTicks(value) {
-		let ticks = [];
-
-		if (value < 3) {
-			for (let i = 0; i <= 3; i++) {
-				ticks.push(i);
-			}
-		} else {
-			for (let i = 0; i <= value; i++) {
-				ticks.push(i);
-			}
-		}
-
-		return ticks;
-	}
-
 	//USE_MEMOS
 	useMemo(() => {
 		const timeRange = getTimeRange(dateRange);

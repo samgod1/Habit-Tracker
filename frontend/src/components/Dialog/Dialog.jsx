@@ -17,7 +17,7 @@ const Dialog = ({ setIsDialogOpen, habitToEdit, setHabitToEdit }) => {
 	const nameRef = useRef(null);
 	const typeRef = useRef(null);
 
-	const { habits, setHabits } = useContext(HabitContext);
+	const { setHabits } = useContext(HabitContext);
 
 	function handleEmojiClick(emojiData) {
 		emojiDisplay.current.innerText = emojiData.emoji;
@@ -76,7 +76,6 @@ const Dialog = ({ setIsDialogOpen, habitToEdit, setHabitToEdit }) => {
 				!buttonRef.current.contains(e.target)
 			) {
 				setIsOpen(false);
-				setHabitToEdit(null);
 			}
 		}
 
