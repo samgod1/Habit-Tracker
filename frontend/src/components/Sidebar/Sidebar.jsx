@@ -54,6 +54,12 @@ const Sidebar = () => {
 		};
 	}, [canClickLogout]);
 
+	useEffect(() => {
+		if (!user) {
+			navigate("/");
+		}
+	}, [user]);
+
 	//USE_GSAP
 	useGSAP(() => {
 		if (!loading && (isSidebarOpen || window.innerWidth > 765)) {

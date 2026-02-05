@@ -17,7 +17,7 @@ export const UserProvider = ({ children }) => {
 					withCredentials: true,
 				},
 			);
-			setUser(response);
+			setUser(response.data);
 			setLoading(false);
 			toast.success("Signup successful");
 		} catch (e) {
@@ -58,6 +58,7 @@ export const UserProvider = ({ children }) => {
 			throw new Error(e);
 		} finally {
 			setUser(null);
+			setLoading(false);
 		}
 	}
 
@@ -73,6 +74,7 @@ export const UserProvider = ({ children }) => {
 		} catch (e) {
 			console.log(e);
 			setUser(null);
+		} finally {
 			setLoading(false);
 		}
 	}
@@ -80,12 +82,6 @@ export const UserProvider = ({ children }) => {
 	useEffect(() => {
 		fetchUserData();
 	}, []);
-
-	useEffect(() => {
-		if (user) {
-			setLoading(false);
-		}
-	}, [user]);
 
 	return (
 		<userContext.Provider value={{ user, loading, signup, login, logout }}>
