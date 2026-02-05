@@ -18,11 +18,12 @@ export const UserProvider = ({ children }) => {
 				},
 			);
 			setUser(response.data);
-			setLoading(false);
 			toast.success("Signup successful");
 		} catch (e) {
 			toast.error(e?.response?.data?.message || e.message);
 			throw new Error(e);
+		} finally {
+			setLoading(false);
 		}
 	}
 
@@ -36,11 +37,13 @@ export const UserProvider = ({ children }) => {
 				},
 			);
 			setUser(response.data);
+			console.log(response.data);
 			toast.success("Login Successful");
 		} catch (e) {
-			console.log(e);
 			toast.error(e?.response?.data?.message || e.message);
 			throw new Error(e);
+		} finally {
+			setLoading(false);
 		}
 	}
 

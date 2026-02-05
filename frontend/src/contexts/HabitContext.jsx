@@ -23,15 +23,19 @@ export function HabitProvider({ children }) {
 				},
 			);
 			setHabits(response.data);
-			setLoading(false);
+			console.log(response.data);
 		} catch (e) {
 			toast.error(e?.response?.data?.message || e.message);
+		} finally {
+			setLoading(false);
 		}
 	}
 
 	useEffect(() => {
-		getHabits();
-	}, []);
+		if (user) {
+			getHabits();
+		}
+	}, [user]);
 	return (
 		<HabitContext.Provider value={{ habits, setHabits, loading }}>
 			{children}
