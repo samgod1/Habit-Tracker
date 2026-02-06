@@ -81,6 +81,9 @@ const Habits = () => {
 		getPriorities();
 	}, []);
 
+	const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+	const today = weekDays[new Date().getDay()];
+
 	if (loading) {
 		return <div>Loading</div>;
 	}
@@ -125,7 +128,12 @@ const Habits = () => {
 												"Sun",
 												"",
 											].map((day) => (
-												<span key={day}>{day}</span>
+												<span
+													key={day}
+													className={day === today ? "today" : ""}
+												>
+													{day}
+												</span>
 											))}
 										</div>
 									</div>
@@ -171,7 +179,12 @@ const Habits = () => {
 												"Sun",
 												"",
 											].map((day) => (
-												<span>{day}</span>
+												<span
+													key={day}
+													className={day === today ? "today" : ""}
+												>
+													{day}
+												</span>
 											))}
 										</div>
 									</div>

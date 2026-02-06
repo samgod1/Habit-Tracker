@@ -27,7 +27,7 @@ const Card = ({ id, name, type, icon, setHabitToEdit, setIsDialogOpen }) => {
 	const debounceRef = useRef(null);
 	const contextMenuRef = useRef(null);
 
-	const { habits, setHabits } = useContext(HabitContext);
+	const { setHabits } = useContext(HabitContext);
 
 	//Getting the completed date for this habit
 	async function getCompletedDates() {

@@ -10,11 +10,15 @@ const HabitDayBtn = ({ checked, handleChange, day, type }) => {
 		}
 	}, [checked]);
 
+	const today = new Date().toISOString().split("T")[0];
+
 	return (
 		<button
 			onClick={() => {
-				handleChange(!isChecked, day);
-				setIsChecked(!isChecked);
+				if (day <= today) {
+					handleChange(!isChecked, day);
+					setIsChecked(!isChecked);
+				}
 			}}
 			className={`habit-circle-btn ${isChecked ? `completed-${type}` : ""}`}
 		>

@@ -95,6 +95,12 @@
 					color: var(--color-secondary-text);
 				}
 
+				span.today {
+					background-color: var(--color-link-border);
+					color: var(--color-primary-text);
+					border-radius: 4px;
+				}
+
 				span:last-child {
 					width: 45px;
 				}
