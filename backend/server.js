@@ -28,6 +28,7 @@ app.get("/", (req, res) => {
 	res.send("hello world");
 });
 
+app.set("trust proxy", 1);
 app.use("/api/auth", authRoutes);
 app.use("/api/user", protectRoute, userRoutes);
 app.use("/api/habit", protectRoute, habitRoutes);
