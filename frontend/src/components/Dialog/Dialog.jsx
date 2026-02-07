@@ -24,6 +24,7 @@ const Dialog = ({ setIsDialogOpen, habitToEdit, setHabitToEdit }) => {
 	}
 
 	async function createOrUpdateHabit() {
+		setIsDialogOpen(false);
 		const icon = emojiDisplay.current.innerText;
 		const name = nameRef.current.value;
 		const type = typeRef.current.value;
@@ -61,7 +62,6 @@ const Dialog = ({ setIsDialogOpen, habitToEdit, setHabitToEdit }) => {
 
 				setHabitToEdit(null);
 			}
-			setIsDialogOpen(false);
 		} catch (e) {
 			toast.error(e?.response?.data?.message || e);
 		}
