@@ -10,13 +10,9 @@ export const UserProvider = ({ children }) => {
 
 	async function signup(data) {
 		try {
-			const response = await axios.post(
-				import.meta.env.VITE_BACKEND_URL + "/api/auth/signup",
-				data,
-				{
-					withCredentials: true,
-				},
-			);
+			const response = await axios.post("/api/auth/signup", data, {
+				withCredentials: true,
+			});
 			setUser(response.data);
 			toast.success("Signup successful");
 		} catch (e) {
@@ -29,13 +25,9 @@ export const UserProvider = ({ children }) => {
 
 	async function login(data) {
 		try {
-			const response = await axios.post(
-				import.meta.env.VITE_BACKEND_URL + "/api/auth/login",
-				data,
-				{
-					withCredentials: true,
-				},
-			);
+			const response = await axios.post("/api/auth/login", data, {
+				withCredentials: true,
+			});
 			setUser(response.data);
 			console.log(response.data);
 			toast.success("Login Successful");
@@ -50,7 +42,7 @@ export const UserProvider = ({ children }) => {
 	async function logout() {
 		try {
 			const response = await axios.post(
-				import.meta.env.VITE_BACKEND_URL + "/api/auth/logout",
+				"/api/auth/logout",
 				{},
 				{
 					withCredentials: true,
@@ -67,12 +59,9 @@ export const UserProvider = ({ children }) => {
 
 	async function fetchUserData() {
 		try {
-			const response = await axios.get(
-				import.meta.env.VITE_BACKEND_URL + "/api/user/",
-				{
-					withCredentials: true,
-				},
-			);
+			const response = await axios.get("/api/user/", {
+				withCredentials: true,
+			});
 			setUser(response.data);
 		} catch (e) {
 			console.log(e);

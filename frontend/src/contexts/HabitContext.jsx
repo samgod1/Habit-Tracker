@@ -16,12 +16,9 @@ export function HabitProvider({ children }) {
 			if (!user) {
 				return;
 			}
-			const response = await axios.get(
-				import.meta.env.VITE_BACKEND_URL + "/api/habit",
-				{
-					withCredentials: true,
-				},
-			);
+			const response = await axios.get("/api/habit", {
+				withCredentials: true,
+			});
 			setHabits(response.data);
 		} catch (e) {
 			toast.error(e?.response?.data?.message || e.message);

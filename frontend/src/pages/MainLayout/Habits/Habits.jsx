@@ -54,10 +54,9 @@ const Habits = () => {
 
 	async function getPriorities() {
 		try {
-			const response = await axios.get(
-				import.meta.env.VITE_BACKEND_URL + "/api/priorities/",
-				{ withCredentials: true },
-			);
+			const response = await axios.get("/api/priorities/", {
+				withCredentials: true,
+			});
 
 			setPriorities(response.data.priorities);
 		} catch (e) {
@@ -68,7 +67,7 @@ const Habits = () => {
 	async function updatePriorities(updated) {
 		try {
 			await axios.post(
-				import.meta.env.VITE_BACKEND_URL + "/api/priorities/update",
+				"/api/priorities/update",
 				{ priorities: updated },
 				{ withCredentials: true },
 			);

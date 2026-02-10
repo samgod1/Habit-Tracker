@@ -24,10 +24,7 @@ const ContextMenu = ({ ref, id, setHabitToEdit, setIsDialogOpen }) => {
 		setHabits(newHabits);
 
 		try {
-			await axios.delete(
-				import.meta.env.VITE_BACKEND_URL + "/api/habit/" + id,
-				{ withCredentials: true },
-			);
+			await axios.delete("/api/habit/" + id, { withCredentials: true });
 		} catch (e) {
 			toast.error(e?.response?.data?.message || e.message);
 		}

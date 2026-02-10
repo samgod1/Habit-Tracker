@@ -32,7 +32,7 @@ const Dialog = ({ setIsDialogOpen, habitToEdit, setHabitToEdit }) => {
 		try {
 			if (!habitToEdit) {
 				const response = await axios.post(
-					import.meta.env.VITE_BACKEND_URL + "/api/habit/create",
+					"/api/habit/create",
 					{
 						icon: icon,
 						name: name,
@@ -45,7 +45,7 @@ const Dialog = ({ setIsDialogOpen, habitToEdit, setHabitToEdit }) => {
 				setHabits((prev) => [...prev, response.data]);
 			} else {
 				const response = await axios.put(
-					import.meta.env.VITE_BACKEND_URL + "/api/habit/" + habitToEdit._id,
+					"/api/habit/" + habitToEdit._id,
 					{
 						icon: icon,
 						name: name,

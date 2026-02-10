@@ -32,15 +32,9 @@ const Card = ({ id, name, type, icon, setHabitToEdit, setIsDialogOpen }) => {
 	//Getting the completed date for this habit
 	async function getCompletedDates() {
 		try {
-			const response = await axios.get(
-				import.meta.env.VITE_BACKEND_URL +
-					"/api/habit/" +
-					id +
-					"/completedDates",
-				{
-					withCredentials: true,
-				},
-			);
+			const response = await axios.get("/api/habit/" + id + "/completedDates", {
+				withCredentials: true,
+			});
 
 			setCompletedDates(response.data.completedDates);
 			setStreak(response.data.streak);
@@ -80,10 +74,7 @@ const Card = ({ id, name, type, icon, setHabitToEdit, setIsDialogOpen }) => {
 	async function updateCompletedDates(updatedCompletedDates) {
 		try {
 			const response = await axios.post(
-				import.meta.env.VITE_BACKEND_URL +
-					"/api/habit/" +
-					id +
-					"/updateCompletedDates",
+				import.meta.env.VITE_BACKEND_URL + id + "/updateCompletedDates",
 				{
 					completedDates: updatedCompletedDates,
 					habitId: id,
