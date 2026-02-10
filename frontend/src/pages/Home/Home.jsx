@@ -3,6 +3,7 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { useContext, useEffect } from "react";
 import { ScrollTrigger } from "gsap/all";
+import { FaArrowDown } from "react-icons/fa";
 
 import "./Home.css";
 import { PageTransitionContext } from "../../components/PageTransition/PageTransition";
@@ -95,6 +96,10 @@ const Home = () => {
 					>
 						Get Started
 					</button>
+				</div>
+				<div className="scroll-down">
+					<p>Scroll down</p>
+					<FaArrowDown />
 				</div>
 			</section>
 			<section className="spotlight-section">

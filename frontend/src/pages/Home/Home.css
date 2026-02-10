@@ -9,6 +9,7 @@
 		min-height: 100dvh;
 		text-align: center;
 		padding: 0rem 2rem;
+		position: relative;
 
 		.wrapper {
 			display: flex;
@@ -48,6 +49,15 @@
 				width: 8rem;
 				cursor: pointer;
 			}
+		}
+
+		.scroll-down {
+			position: absolute;
+			display: flex;
+			align-items: center;
+			gap: 0.5rem;
+			bottom: 0;
+			padding: 1rem;
 		}
 	}
 	.spotlight-section {

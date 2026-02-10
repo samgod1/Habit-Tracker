@@ -29,7 +29,7 @@ export const login = async (req, res) => {
 		res.cookie("token", token, {
 			maxAge: 30 * 24 * 60 * 60 * 1000,
 			httpOnly: true,
-			sameSite: "none",
+			sameSite: true,
 			secure: true,
 		});
 
@@ -47,6 +47,12 @@ export const signup = async (req, res) => {
 		//Checking for empty inputs
 		if (!username || !email || !password || !confirmPassword) {
 			return res.status(400).json({ message: "All fields are required" });
+		}
+
+		if (password.length <= 5) {
+			return res
+				.status(400)
+				.json({ message: "Password is less than 6 characters" });
 		}
 
 		const user = await User.findOne({ email });
@@ -75,7 +81,7 @@ export const signup = async (req, res) => {
 		res.cookie("token", token, {
 			maxAge: 30 * 24 * 60 * 60 * 1000,
 			httpOnly: true,
-			sameSite: "none",
+			sameSite: true,
 			secure: true,
 		});
 		return res
@@ -91,7 +97,7 @@ export const logout = (req, res) => {
 	try {
 		res.clearCookie("token", {
 			httpOnly: true,
-			sameSite: "none",
+			sameSite: true,
 			secure: true,
 		});
 		return res.status(200).json({ message: "Logout successful" });
