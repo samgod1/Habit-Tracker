@@ -15,7 +15,7 @@ export const getPriorites = async (req, res) => {
 					3: { text: "", checked: false },
 				},
 			});
-			return res.status(200).json(newPriorities.priorities);
+			return res.status(200).json(newPriorities);
 		}
 
 		return res.status(200).json(priorities);

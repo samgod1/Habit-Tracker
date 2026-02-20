@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./HabitDayBtn.css";
+import toast from "react-hot-toast";
 
 const HabitDayBtn = ({ checked, handleChange, day, type }) => {
 	const [isChecked, setIsChecked] = useState(false);
@@ -18,6 +19,8 @@ const HabitDayBtn = ({ checked, handleChange, day, type }) => {
 				if (day <= today) {
 					handleChange(!isChecked, day);
 					setIsChecked(!isChecked);
+				} else {
+					toast.error("Future dates are unavailable for selection.");
 				}
 			}}
 			className={`habit-circle-btn ${isChecked ? `completed-${type}` : ""}`}
