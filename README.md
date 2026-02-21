@@ -2,7 +2,7 @@
 
 Anchored is a website for people who want to build good habits and break bad ones. Anchored is a habit tracking website where you can create, edit and delete habits. You can also see your progress through charts. The main purpose of this website is to make users stick to good habits and get unstuck from bad habits.
 
-##IMPORTANT NOTE:
+## IMPORTANT NOTE:
 You cannot check the future days, only today or the past days.
 
 ## Features
